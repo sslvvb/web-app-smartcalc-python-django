@@ -7,9 +7,11 @@
 # представлены функции, которые будут обрабатывать запросы
 # связь функций с запросами
 
+# файл хранит контроллеры текущего приложения
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
+from django.http import JsonResponse
 
 
 def index(request):
@@ -26,3 +28,39 @@ def graph(request):
 
 def about(request):
     return render(request, "about.html")
+
+
+def page_not_found(request, exception):
+    # сюда добавить красивую страничку для 404
+    return HttpResponseNotFound('<h1>Страница не найдена<\h1>')
+
+
+# def calculate(request):
+#     expression = request.GET.get('expression')
+#     # Perform calculations on the expression string
+#     result = evaluate_expression(expression)
+
+#     # Return the result as JSON response
+#     return JsonResponse({'result': result})
+
+
+# мне нужен post запрос
+
+def calculate_expression(request):
+    if request.method == 'POST':
+        expression = request.POST.get('expression')
+        double_num = request.POST.get('double_num')
+
+        # Perform calculations using the expression and double_num
+        # You can use eval() to evaluate the expression, but be cautious about potential security risks
+
+        # Evaluate the expression (example, but not recommended for production)
+        # result = eval(expression)
+        result = expression
+
+        # Pass the result back to the template for display
+        context = {'result': result}
+        return render(request, 'result.html', context)
+
+    # Handle GET request or other cases
+    return render(request, 'index.html')

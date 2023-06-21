@@ -18,14 +18,12 @@ Including another URLconf
 # здесь определяем маршруты для функций из view.py, которые обрабатывают запросы
 # определение функций
 
-from django.urls import path
+from django.urls import path, include
 from smartcalc import views
 
 urlpatterns = [
-    path('', views.index, name='home'),
-    path('settings/', views.settings, name='settings'),
-    path('graph/', views.graph, name='graph'),
-    path('about/', views.about, name='about'),
+    path('', include('smartcalc.urls')),
+    # admin include
 ]
 
-# kwargs передает в функцию словарь с двумя значениями
+handler404 = views.page_not_found # а какой стиль в питоне ??

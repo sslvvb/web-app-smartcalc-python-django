@@ -63,6 +63,29 @@
       font-size: 18px;
     }
   </style>
+  <!-- 
+  <script>
+    // Define a variable to store the entered expression
+    let expression = '';
+
+    // Function to append values to the expression variable
+    function appendValue(value) {
+      expression += value;
+    }
+
+    // Function to clear the expression variable and input field
+    function clearExpression() {
+      expression = '';
+      document.getElementById('expression').value = '';
+    }
+
+    // Function to evaluate the expression and submit the form
+    function evaluateExpression() {
+      document.getElementById('expression').value = expression;
+      document.getElementById('calculationForm').submit();
+    }
+  </script> -->
+
 </head>
 
 <body>
@@ -73,11 +96,12 @@
 
   <div class="container">
     <div class="calculator">
-      <input type="text" class="expression-input" id="expression" placeholder="Enter an expression">
+      <input type="text" class="expression-input" id="expression" name="expression" placeholder="Enter an expression">
+
       <br>
       <button>GRAPH</button>
       <button onclick="appendValue('x')">x</button>
-      <input type="text" class="x-input" id="doubleNum" value="1.0">
+      <input type="text" class="x-input" id="double_num" name="double_num" value="1.0">
       <button class="btn-pink" onclick="clearExpression()">AC</button>
       <br>
       <button onclick="appendValue('sin')">sin</button>
@@ -96,7 +120,8 @@
       <br>
       <button onclick="appendValue('tan')">tan</button>
       <button onclick="appendValue('atan')">atan</button>
-      <button onclick="appendValue('4')">4</button>
+      <!-- <button onclick="appendValue('4'); return false;">4</button> -->
+      <button onclick="appendValue('4');">4</button>
       <button onclick="appendValue('5')">5</button>
       <button onclick="appendValue('6')">6</button>
       <button class="btn-pink" onclick="appendValue('*')">*</button>
@@ -112,11 +137,20 @@
       <button onclick="appendValue('log')">log</button>
       <button onclick="appendValue('.')">.</button>
       <button onclick="appendValue('0')">0</button>
-      <button onclick="evaluateExpression()">=</button>
+      <form action="/calculate" method="POST"> <!-- Added form element with action and method attributes -->
+        {% csrf_token %} <!-- Added CSRF token for security -->
+        <button onclick="evaluateExpression()">=</button>
+      </form>
       <button class="btn-pink" onclick="appendValue('+')">+</button>
       <br>
     </div>
   </div>
+
+  <!-- <form action="/your-name/" method="post">
+    <label for="your_name">Your name: </label>
+    <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
+    <input type="submit" value="OK">
+  </form> -->
 
   <script>
     // function evaluateExpression() {
