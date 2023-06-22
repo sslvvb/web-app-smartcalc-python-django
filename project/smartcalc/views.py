@@ -32,7 +32,7 @@ def about(request):
 
 def page_not_found(request, exception):
     # сюда добавить красивую страничку для 404
-    return HttpResponseNotFound('<h1>Страница не найдена<\h1>')
+    return HttpResponseNotFound("<h1>Страница не найдена<\h1>")
 
 
 # def calculate(request):
@@ -64,13 +64,14 @@ def page_not_found(request, exception):
 #     return render(request, 'index.html')
 
 
-def calculate_expression(request):
+def calculate_expression(request): # мб на главную перенести
     if request.method == 'POST':
         expression = request.POST.get('expression')
         # Perform the calculation on the expression
-        result = eval(expression) # тут отправляю в модель считаться
+        # result = eval(expression) # тут отправляю в модель считаться
+        result = "313"  # тут отправляю в модель считаться
         # return HttpResponse(str(result))
-        render(request, "index.html", {'result': result})
+        return render(request, "index.html", {'result': result})
     else:
         return HttpResponse(status=400)
 

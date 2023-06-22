@@ -76,7 +76,8 @@
     <div class="calculator">
       <form id="calculator-form">
         {% csrf_token %}
-        <input type="text" class="expression-input" id="expression" name="expression" placeholder="Enter an expression">
+        <input type="text" class="expression-input" id="expression" name="expression" placeholder="Enter an expression"
+          value="{{ result }}">
         <br>
         <button type="button" onclick="graphExpression()">GRAPH</button>
         <button onclick="appendValue('x'); return false;">x</button>
@@ -136,6 +137,7 @@
       var form = document.getElementById('calculator-form');
       form.action = '/calculate';  // Set the backend endpoint for calculation
       form.method = 'POST';  // Use POST method to send data
+
       form.submit();
     }
 
