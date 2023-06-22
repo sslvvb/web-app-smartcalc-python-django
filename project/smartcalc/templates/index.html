@@ -135,6 +135,7 @@
     function evaluateExpression() {
       var expression = document.getElementById('expression').value;
       var form = document.getElementById('calculator-form');
+      // на индекс с проверкой на пост переделать
       form.action = '/calculate';  // Set the backend endpoint for calculation
       form.method = 'POST';  // Use POST method to send data
 
