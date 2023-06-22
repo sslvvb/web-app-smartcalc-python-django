@@ -44,23 +44,42 @@ def page_not_found(request, exception):
 #     return JsonResponse({'result': result})
 
 
-# мне нужен post запрос
+# def calculate_expression(request):
+#     if request.method == 'POST':
+#         expression = request.POST.get('expression')
+#         double_num = request.POST.get('double_num')
+
+#         # Perform calculations using the expression and double_num
+#         # You can use eval() to evaluate the expression, but be cautious about potential security risks
+
+#         # Evaluate the expression (example, but not recommended for production)
+#         # result = eval(expression)
+#         result = expression
+
+#         # Pass the result back to the template for display
+#         context = {'result': result}
+#         return render(request, 'result.html', context)
+
+#     # Handle GET request or other cases
+#     return render(request, 'index.html')
+
 
 def calculate_expression(request):
     if request.method == 'POST':
         expression = request.POST.get('expression')
-        double_num = request.POST.get('double_num')
+        # Perform the calculation on the expression
+        result = eval(expression) # тут отправляю в модель считаться
+        # return HttpResponse(str(result))
+        render(request, "index.html", {'result': result})
+    else:
+        return HttpResponse(status=400)
 
-        # Perform calculations using the expression and double_num
-        # You can use eval() to evaluate the expression, but be cautious about potential security risks
 
-        # Evaluate the expression (example, but not recommended for production)
-        # result = eval(expression)
-        result = expression
-
-        # Pass the result back to the template for display
-        context = {'result': result}
-        return render(request, 'result.html', context)
-
-    # Handle GET request or other cases
-    return render(request, 'index.html')
+def graph_expression(request):
+    if request.method == 'POST':
+        expression = request.POST.get('expression')
+        # Generate the chart based on the expression
+        # You can use libraries like matplotlib or Chart.js to create the chart
+        return render(request, 'graph.html')
+    else:
+        return HttpResponse(status=400)

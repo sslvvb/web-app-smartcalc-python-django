@@ -63,115 +63,88 @@
       font-size: 18px;
     }
   </style>
-  <!-- 
-  <script>
-    // Define a variable to store the entered expression
-    let expression = '';
-
-    // Function to append values to the expression variable
-    function appendValue(value) {
-      expression += value;
-    }
-
-    // Function to clear the expression variable and input field
-    function clearExpression() {
-      expression = '';
-      document.getElementById('expression').value = '';
-    }
-
-    // Function to evaluate the expression and submit the form
-    function evaluateExpression() {
-      document.getElementById('expression').value = expression;
-      document.getElementById('calculationForm').submit();
-    }
-  </script> -->
-
 </head>
 
 <body>
 
   <div style="text-align: center; margin-top: 20px; margin-bottom: 20px; ">
-    <a href="index.html">Calculator</a> | <a href="about.html">About</a>
+    <!-- тут тоже формы мб ? -->
+    <a href="index.html">Calculator</a> | <a href="http://127.0.0.1:8000/about">About</a>
   </div>
 
   <div class="container">
     <div class="calculator">
-      <input type="text" class="expression-input" id="expression" name="expression" placeholder="Enter an expression">
-
-      <br>
-      <button>GRAPH</button>
-      <button onclick="appendValue('x')">x</button>
-      <input type="text" class="x-input" id="double_num" name="double_num" value="1.0">
-      <button class="btn-pink" onclick="clearExpression()">AC</button>
-      <br>
-      <button onclick="appendValue('sin')">sin</button>
-      <button onclick="appendValue('asin')">asin</button>
-      <button onclick="appendValue('e')">e</button>
-      <button onclick="appendValue('(')">(</button>
-      <button onclick="appendValue(')')">)</button>
-      <button class="btn-pink" onclick="appendValue('^')">^</button>
-      <br>
-      <button onclick="appendValue('cos')">cos</button>
-      <button onclick="appendValue('acos')">acos</button>
-      <button onclick="appendValue('1')">1</button>
-      <button onclick="appendValue('2')">2</button>
-      <button onclick="appendValue('3')">3</button>
-      <button class="btn-pink" onclick="appendValue('/')">/</button>
-      <br>
-      <button onclick="appendValue('tan')">tan</button>
-      <button onclick="appendValue('atan')">atan</button>
-      <!-- <button onclick="appendValue('4'); return false;">4</button> -->
-      <button onclick="appendValue('4');">4</button>
-      <button onclick="appendValue('5')">5</button>
-      <button onclick="appendValue('6')">6</button>
-      <button class="btn-pink" onclick="appendValue('*')">*</button>
-      <br>
-      <button onclick="appendValue('0')">mod</button>
-      <button onclick="appendValue('ln')">ln</button>
-      <button onclick="appendValue('7')">7</button>
-      <button onclick="appendValue('8')">8</button>
-      <button onclick="appendValue('9')">9</button>
-      <button class="btn-pink" onclick="appendValue('-')">-</button>
-      <br>
-      <button onclick="appendValue('sqrt')">sqrt</button>
-      <button onclick="appendValue('log')">log</button>
-      <button onclick="appendValue('.')">.</button>
-      <button onclick="appendValue('0')">0</button>
-      <form action="/calculate" method="POST"> <!-- Added form element with action and method attributes -->
-        {% csrf_token %} <!-- Added CSRF token for security -->
+      <form id="calculator-form">
+        {% csrf_token %}
+        <input type="text" class="expression-input" id="expression" name="expression" placeholder="Enter an expression">
+        <br>
+        <button type="button" onclick="graphExpression()">GRAPH</button>
+        <button onclick="appendValue('x'); return false;">x</button>
+        <input type="text" class="x-input" id="double_num" name="double_num" value="1.0">
+        <button class="btn-pink" onclick="clearExpression(); return false;">AC</button>
+        <br>
+        <button onclick="appendValue('sin'); return false;">sin</button>
+        <button onclick="appendValue('asin'); return false;">asin</button>
+        <button onclick="appendValue('e'); return false;">e</button>
+        <button onclick="appendValue('('); return false;">(</button>
+        <button onclick="appendValue(')'); return false;">)</button>
+        <button class="btn-pink" onclick="appendValue('^'); return false;">^</button>
+        <br>
+        <button onclick="appendValue('cos'); return false;">cos</button>
+        <button onclick="appendValue('acos'); return false;">acos</button>
+        <button onclick="appendValue('1'); return false;">1</button>
+        <button onclick="appendValue('2'); return false;">2</button>
+        <button onclick="appendValue('3'); return false;">3</button>
+        <button class="btn-pink" onclick="appendValue('/'); return false;">/</button>
+        <br>
+        <button onclick="appendValue('tan'); return false;">tan</button>
+        <button onclick="appendValue('atan'); return false;">atan</button>
+        <button onclick="appendValue('4'); return false;;">4</button>
+        <button onclick="appendValue('5'); return false;">5</button>
+        <button onclick="appendValue('6'); return false;">6</button>
+        <button class="btn-pink" onclick="appendValue('*'); return false;">*</button>
+        <br>
+        <button onclick="appendValue('0'); return false;">mod</button>
+        <button onclick="appendValue('ln'); return false;">ln</button>
+        <button onclick="appendValue('7'); return false;">7</button>
+        <button onclick="appendValue('8'); return false;">8</button>
+        <button onclick="appendValue('9'); return false;">9</button>
+        <button class="btn-pink" onclick="appendValue('-'); return false;">-</button>
+        <br>
+        <button onclick="appendValue('sqrt'); return false;">sqrt</button>
+        <button onclick="appendValue('log'); return false;">log</button>
+        <button onclick="appendValue('.'); return false;">.</button>
+        <button onclick="appendValue('0'); return false;">0</button>
         <button onclick="evaluateExpression()">=</button>
+        <button class="btn-pink" onclick="appendValue('+'); return false;">+</button>
       </form>
-      <button class="btn-pink" onclick="appendValue('+')">+</button>
-      <br>
     </div>
   </div>
 
-  <!-- <form action="/your-name/" method="post">
-    <label for="your_name">Your name: </label>
-    <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
-    <input type="submit" value="OK">
-  </form> -->
-
   <script>
-    // function evaluateExpression() {
-    //   var expression = document.getElementById('expression').value;
-    //   var result = eval(expression);
-    //   document.getElementById('expression').value = result;
-    // }
 
     function appendValue(value) {
       document.getElementById('expression').value += value;
     }
 
-    function evaluateExpression() {
-      var expression = document.getElementById('expression').value;
-      var result = eval(expression);
-      document.getElementById('result').textContent = "Result: " + result; // Display the result in the div
-      document.getElementById('expression').value = result;
-    }
-
     function clearExpression() {
       document.getElementById('expression').value = '';
+    }
+
+    function evaluateExpression() {
+      var expression = document.getElementById('expression').value;
+      var form = document.getElementById('calculator-form');
+      form.action = '/calculate';  // Set the backend endpoint for calculation
+      form.method = 'POST';  // Use POST method to send data
+      form.submit();
+    }
+
+    function graphExpression() {
+      var expression = document.getElementById('expression').value;
+      var form = document.getElementById('calculator-form');
+      form.action = '/graph';  // Set the backend endpoint for graphing
+      form.method = 'POST';  // Use POST method to send data
+      form.submit();
     }
   </script>
 </body>
