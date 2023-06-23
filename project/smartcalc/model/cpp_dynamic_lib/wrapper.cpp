@@ -1,4 +1,5 @@
 #include "model.h"
+#include <iostream>
 
 // В модель должны быть вынесены все функциональные возможности калькулятора
 // таким образом, чтобы в будущем ее можно было использовать без остальных слоев
@@ -14,8 +15,10 @@ int tmp(int num) {
   return model.res(num);
 }
 
-double GetResult(const char* str) {  // надо на string заменить ?
+// double GetResult(const char* str) {  // надо на string заменить ?
+double GetResult(std::string str) {  // надо на string заменить ?
   s21::Model model;
+  std::cout << str << "wrapper" << std::endl;
   return model.GetResult(str);
 }
 
