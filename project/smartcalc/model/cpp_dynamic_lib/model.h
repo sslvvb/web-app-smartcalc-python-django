@@ -8,9 +8,14 @@
 #include <stdexcept>
 #include <vector>
 
+// #ifdef __cplusplus
+// extern "C" {
+// #endif
+
 // из этого собираю динамическую библиотеку с тремя публичными функциями наружу
 // подключить ее к питону
-// фронт разделить на кнопки и собирать оттуда строку и х если он есть, подумать как это сделать красиво
+// фронт разделить на кнопки и собирать оттуда строку и х если он есть, подумать
+// как это сделать красиво
 
 namespace s21 {
 
@@ -54,13 +59,15 @@ class Model {
   Model& operator=(Model&& other) = delete;
   ~Model() = default;
 
+  int res(int num) { return num * 2; }
+
   double GetResult(const char* str);
   double GetResult(const char* str, double x_value);
   std::pair<std::vector<double>, std::vector<double>> GetResultForGraph(
       const char* str, double x_min, double x_max);
 
  private:
-  class Parser { // композиция-наследование почему вообще это внутри ???
+  class Parser {  // композиция-наследование почему вообще это внутри ???
    public:
     list ParseNodes(const char* str);
 
@@ -101,5 +108,9 @@ class Model {
 };
 
 }  // namespace s21
+
+// #ifdef __cplusplus
+// }
+// #endif
 
 #endif  // SMARTCALC_APP_MODEL_H_
