@@ -7,13 +7,11 @@
     html {
       background-color: rgb(248, 248, 248);
     }
-
     .container {
       display: flex;
       justify-content: center;
       height: 350px;
     }
-
     .calculator {
       border: 1px solid #ccc;
       padding: 10px;
@@ -22,7 +20,6 @@
       border-radius: 10px;
       box-shadow: 12px 12px 2px 1px rgba(255, 214, 230);
     }
-
     .calculator input {
       margin-bottom: 5px;
       padding: 10px;
@@ -33,7 +30,6 @@
       border-color: rgba(64, 65, 1);
       font-weight: bold;
     }
-
     .calculator button {
       width: 100px;
       padding: 10px;
@@ -44,19 +40,15 @@
       margin-bottom: 5px;
       font-weight: bold;
     }
-
     .expression-input {
       width: 595px;
     }
-
     .x-input {
       width: 283px;
     }
-
     .btn-pink {
       background-color: rgba(255, 214, 230);
     }
-
     a {
       color: rgba(64, 65, 1);
       text-decoration: none;
@@ -68,7 +60,7 @@
 <body>
 
   <div style="text-align: center; margin-top: 20px; margin-bottom: 20px; ">
-    <!-- тут тоже формы мб ? -->
+    <!-- тут тоже формы мб ? с гет запросом -->
     <a href="index.html">Calculator</a> | <a href="http://127.0.0.1:8000/about">About</a>
   </div>
 
@@ -138,7 +130,6 @@
       // на индекс с проверкой на пост переделать
       form.action = '/calculate';  // Set the backend endpoint for calculation
       form.method = 'POST';  // Use POST method to send data
-
       form.submit();
     }
 

@@ -1,20 +1,10 @@
-# Центральным моментом любого веб-приложения является обработка запроса, который отправляет пользователь.
-# В Django за обработку запроса отвечают представления или views.
-# По сути представления представляют функции обработки, которые принимают данные запроса в
-# виде объекта HttpRequest из пакета django.http и генерируют некоторый результат,
-# который затем отправляется пользователю.
-
-# представлены функции, которые будут обрабатывать запросы
-# связь функций с запросами
-
-# файл хранит контроллеры текущего приложения
-
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
-from django.http import JsonResponse
+from .services import services
 
 
 def index(request):
+    """Main application page"""
     return render(request, "index.html")
 
 
@@ -30,16 +20,34 @@ def about(request):
     return render(request, "about.html")
 
 
+def calculate_expression(request):  # мб на главную перенести ?
+    """Веб-сервис, выполняющий вычисление выражения"""
+    if request.method == 'POST':
+        result: str = services.calculate_expression(request.POST.get('expression'))
+        return render(request, "index.html", {'result': result})
+    else:
+        return HttpResponse(status=400)  # ???
+
+
+def graph_expression(request):
+    """Веб-сервис, выполняющий отрисовку графика выражения"""
+    if request.method == 'POST':
+        expression = request.POST.get('expression')
+        # Generate the chart based on the expression
+        # You can use libraries like matplotlib or Chart.js to create the chart
+        return render(request, 'graph.html')
+    else:
+        return HttpResponse(status=400)
+
+
 def page_not_found(request, exception):
     # сюда добавить красивую страничку для 404
-    return HttpResponseNotFound("<h1>Страница не найдена<\h1>")
-
+    return HttpResponseNotFound("sslvvb Страница не найдена")
 
 # def calculate(request):
 #     expression = request.GET.get('expression')
 #     # Perform calculations on the expression string
 #     result = evaluate_expression(expression)
-
 #     # Return the result as JSON response
 #     return JsonResponse({'result': result})
 
@@ -62,25 +70,3 @@ def page_not_found(request, exception):
 
 #     # Handle GET request or other cases
 #     return render(request, 'index.html')
-
-
-def calculate_expression(request): # мб на главную перенести
-    if request.method == 'POST':
-        expression = request.POST.get('expression')
-        # Perform the calculation on the expression
-        # result = eval(expression) # тут отправляю в модель считаться
-        result = "313"  # тут отправляю в модель считаться
-        # return HttpResponse(str(result))
-        return render(request, "index.html", {'result': result})
-    else:
-        return HttpResponse(status=400)
-
-
-def graph_expression(request):
-    if request.method == 'POST':
-        expression = request.POST.get('expression')
-        # Generate the chart based on the expression
-        # You can use libraries like matplotlib or Chart.js to create the chart
-        return render(request, 'graph.html')
-    else:
-        return HttpResponse(status=400)

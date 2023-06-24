@@ -3,16 +3,11 @@
 
 #include <clocale>
 #include <cmath>
+#include <iostream>  // tmp
 #include <list>
 #include <stack>
 #include <stdexcept>
 #include <vector>
-
-#include <iostream> // tmp
-
-// #ifdef __cplusplus
-// extern "C" {
-// #endif
 
 // из этого собираю динамическую библиотеку с тремя публичными функциями наружу
 // подключить ее к питону
@@ -47,10 +42,10 @@ enum Type {
   kAtan,
 };
 
+using stack = std::stack<std::pair<double, Type>>;
 class Model {
  public:
   using list = std::list<std::pair<double, Type>>;
-  using stack = std::stack<std::pair<double, Type>>;
   using pair = std::pair<double, Type>;
   using vector = std::vector<double>;
 
@@ -114,9 +109,5 @@ class Model {
 };
 
 }  // namespace s21
-
-// #ifdef __cplusplus
-// }
-// #endif
 
 #endif  // SMARTCALC_APP_MODEL_H_

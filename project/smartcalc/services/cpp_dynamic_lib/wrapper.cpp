@@ -1,10 +1,10 @@
 #include "model.h"
-#include <iostream>
+#include <iostream> // tmp
 
 // В модель должны быть вынесены все функциональные возможности калькулятора
 // таким образом, чтобы в будущем ее можно было использовать без остальных слоев
 
-// Подготовить полное покрытие unit-тестами методов, находящихся в слое модели
+// Подготовить полно е покрытие unit-тестами методов, находящихся в слое модели
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,11 +15,10 @@ int tmp(int num) {
   return model.res(num);
 }
 
-// double GetResult(const char* str) {  // надо на string заменить ?
-double GetResult(std::string str) {  // надо на string заменить ?
+double GetResult(const char* str) {  // надо на string заменить ?
   s21::Model model;
-  std::cout << str << "wrapper" << std::endl;
-  return model.GetResult(str);
+  std::cout << str << "   wrapper string" << std::endl;
+  return model.GetResult(str); // float возвращать ?
 }
 
 #ifdef __cplusplus
