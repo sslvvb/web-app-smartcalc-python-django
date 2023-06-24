@@ -2,145 +2,155 @@
 <html>
 
 <head>
-  <title>SmartCalc</title>
-  <style>
-    html {
-      background-color: rgb(248, 248, 248);
-    }
-    .container {
-      display: flex;
-      justify-content: center;
-      height: 350px;
-    }
-    .calculator {
-      border: 1px solid #ccc;
-      padding: 10px;
-      width: 620px;
-      background-color: rgba(236, 236, 236);
-      border-radius: 10px;
-      box-shadow: 12px 12px 2px 1px rgba(255, 214, 230);
-    }
-    .calculator input {
-      margin-bottom: 5px;
-      padding: 10px;
-      font-size: 16px;
-      color: rgba(64, 65, 1);
-      border-radius: 10px;
-      background-color: rgba(236, 236, 236);
-      border-color: rgba(64, 65, 1);
-      font-weight: bold;
-    }
-    .calculator button {
-      width: 100px;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 10px;
-      border-color: rgba(64, 65, 1);
-      color: rgba(64, 65, 1);
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    .expression-input {
-      width: 595px;
-    }
-    .x-input {
-      width: 283px;
-    }
-    .btn-pink {
-      background-color: rgba(255, 214, 230);
-    }
-    a {
-      color: rgba(64, 65, 1);
-      text-decoration: none;
-      font-size: 18px;
-    }
-  </style>
+    <title>SmartCalc</title>
+    <style>
+        html {
+            background-color: rgb(248, 248, 248);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            height: 350px;
+        }
+
+        .calculator {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 620px;
+            background-color: rgba(236, 236, 236);
+            border-radius: 10px;
+            box-shadow: 12px 12px 2px 1px rgba(255, 214, 230);
+        }
+
+        .calculator input {
+            margin-bottom: 5px;
+            padding: 10px;
+            font-size: 16px;
+            color: rgba(64, 65, 1);
+            border-radius: 10px;
+            background-color: rgba(236, 236, 236);
+            border-color: rgba(64, 65, 1);
+            font-weight: bold;
+        }
+
+        .calculator button {
+            width: 100px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            border-color: rgba(64, 65, 1);
+            color: rgba(64, 65, 1);
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .expression-input {
+            width: 595px;
+        }
+
+        .x-input {
+            width: 283px;
+        }
+
+        .btn-pink {
+            background-color: rgba(255, 214, 230);
+        }
+
+        a {
+            color: rgba(64, 65, 1);
+            text-decoration: none;
+            font-size: 18px;
+        }
+    </style>
 </head>
 
 <body>
 
-  <div style="text-align: center; margin-top: 20px; margin-bottom: 20px; ">
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px; ">
     <!-- тут тоже формы мб ? с гет запросом -->
     <a href="index.html">Calculator</a> | <a href="http://127.0.0.1:8000/about">About</a>
-  </div>
+</div>
 
-  <div class="container">
+<div class="container">
     <div class="calculator">
-      <form id="calculator-form">
-        {% csrf_token %}
-        <input type="text" class="expression-input" id="expression" name="expression" placeholder="Enter an expression"
-          value="{{ result }}">
-        <br>
-        <button type="button" onclick="graphExpression()">GRAPH</button>
-        <button onclick="appendValue('x'); return false;">x</button>
-        <input type="text" class="x-input" id="double_num" name="double_num" value="1.0">
-        <button class="btn-pink" onclick="clearExpression(); return false;">AC</button>
-        <br>
-        <button onclick="appendValue('sin'); return false;">sin</button>
-        <button onclick="appendValue('asin'); return false;">asin</button>
-        <button onclick="appendValue('e'); return false;">e</button>
-        <button onclick="appendValue('('); return false;">(</button>
-        <button onclick="appendValue(')'); return false;">)</button>
-        <button class="btn-pink" onclick="appendValue('^'); return false;">^</button>
-        <br>
-        <button onclick="appendValue('cos'); return false;">cos</button>
-        <button onclick="appendValue('acos'); return false;">acos</button>
-        <button onclick="appendValue('1'); return false;">1</button>
-        <button onclick="appendValue('2'); return false;">2</button>
-        <button onclick="appendValue('3'); return false;">3</button>
-        <button class="btn-pink" onclick="appendValue('/'); return false;">/</button>
-        <br>
-        <button onclick="appendValue('tan'); return false;">tan</button>
-        <button onclick="appendValue('atan'); return false;">atan</button>
-        <button onclick="appendValue('4'); return false;;">4</button>
-        <button onclick="appendValue('5'); return false;">5</button>
-        <button onclick="appendValue('6'); return false;">6</button>
-        <button class="btn-pink" onclick="appendValue('*'); return false;">*</button>
-        <br>
-        <button onclick="appendValue('0'); return false;">mod</button>
-        <button onclick="appendValue('ln'); return false;">ln</button>
-        <button onclick="appendValue('7'); return false;">7</button>
-        <button onclick="appendValue('8'); return false;">8</button>
-        <button onclick="appendValue('9'); return false;">9</button>
-        <button class="btn-pink" onclick="appendValue('-'); return false;">-</button>
-        <br>
-        <button onclick="appendValue('sqrt'); return false;">sqrt</button>
-        <button onclick="appendValue('log'); return false;">log</button>
-        <button onclick="appendValue('.'); return false;">.</button>
-        <button onclick="appendValue('0'); return false;">0</button>
-        <button onclick="evaluateExpression()">=</button>
-        <button class="btn-pink" onclick="appendValue('+'); return false;">+</button>
-      </form>
+        <form id="calculator-form">
+            {% csrf_token %}
+            <input type="text" class="expression-input" id="expression" name="expression"
+                   placeholder="Enter an expression"
+                   value="{{ result }}">
+            <br>
+            <button type="button" onclick="graphExpression()">GRAPH</button>
+            <button onclick="appendValue('x'); return false;">x</button>
+            <input type="text" class="x-input" id="x_num" name="x_num" value="1.0">
+            <button class="btn-pink" onclick="clearExpression(); return false;">AC</button>
+            <br>
+            <button onclick="appendValue('sin'); return false;">sin</button>
+            <button onclick="appendValue('asin'); return false;">asin</button>
+            <button onclick="appendValue('e'); return false;">e</button>
+            <button onclick="appendValue('('); return false;">(</button>
+            <button onclick="appendValue(')'); return false;">)</button>
+            <button class="btn-pink" onclick="appendValue('^'); return false;">^</button>
+            <br>
+            <button onclick="appendValue('cos'); return false;">cos</button>
+            <button onclick="appendValue('acos'); return false;">acos</button>
+            <button onclick="appendValue('1'); return false;">1</button>
+            <button onclick="appendValue('2'); return false;">2</button>
+            <button onclick="appendValue('3'); return false;">3</button>
+            <button class="btn-pink" onclick="appendValue('/'); return false;">/</button>
+            <br>
+            <button onclick="appendValue('tan'); return false;">tan</button>
+            <button onclick="appendValue('atan'); return false;">atan</button>
+            <button onclick="appendValue('4'); return false;;">4</button>
+            <button onclick="appendValue('5'); return false;">5</button>
+            <button onclick="appendValue('6'); return false;">6</button>
+            <button class="btn-pink" onclick="appendValue('*'); return false;">*</button>
+            <br>
+            <button onclick="appendValue('0'); return false;">mod</button>
+            <button onclick="appendValue('ln'); return false;">ln</button>
+            <button onclick="appendValue('7'); return false;">7</button>
+            <button onclick="appendValue('8'); return false;">8</button>
+            <button onclick="appendValue('9'); return false;">9</button>
+            <button class="btn-pink" onclick="appendValue('-'); return false;">-</button>
+            <br>
+            <button onclick="appendValue('sqrt'); return false;">sqrt</button>
+            <button onclick="appendValue('log'); return false;">log</button>
+            <button onclick="appendValue('.'); return false;">.</button>
+            <button onclick="appendValue('0'); return false;">0</button>
+            <button onclick="evaluateExpression()">=</button>
+            <button class="btn-pink" onclick="appendValue('+'); return false;">+</button>
+        </form>
     </div>
-  </div>
+</div>
 
-  <script>
+<script>
 
     function appendValue(value) {
-      document.getElementById('expression').value += value;
+        document.getElementById('expression').value += value;
     }
 
     function clearExpression() {
-      document.getElementById('expression').value = '';
+        document.getElementById('expression').value = '';
     }
 
     function evaluateExpression() {
-      var expression = document.getElementById('expression').value;
-      var form = document.getElementById('calculator-form');
-      // на индекс с проверкой на пост переделать
-      form.action = '/calculate';  // Set the backend endpoint for calculation
-      form.method = 'POST';  // Use POST method to send data
-      form.submit();
+        {#const expression = document.getElementById('expression').value; // а где она тогда используется ?#}
+        // раз не используется, то можно делать офну функцию на все запросы ? или как лучше разделить ?
+        const form = document.getElementById('calculator-form');
+        // на индекс с проверкой на пост переделать (шта ?)
+        form.action = '/calculate';  // Set the backend endpoint for calculation
+        form.method = 'POST';  // Use POST method to send data
+        form.submit();
     }
 
     function graphExpression() {
-      var expression = document.getElementById('expression').value;
-      var form = document.getElementById('calculator-form');
-      form.action = '/graph';  // Set the backend endpoint for graphing
-      form.method = 'POST';  // Use POST method to send data
-      form.submit();
+        var expression = document.getElementById('expression').value;
+        var form = document.getElementById('calculator-form');
+        form.action = '/graph';  // Set the backend endpoint for graphing
+        form.method = 'POST';  // Use POST method to send data
+        form.submit();
     }
-  </script>
+</script>
 </body>
 
 </html>

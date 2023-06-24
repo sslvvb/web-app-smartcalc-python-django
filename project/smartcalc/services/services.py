@@ -7,8 +7,10 @@ from . import calculator
 # слой бизнес-логики, который вызывает другие слои бизнес-логики
 
 
-def calculate_expression(expression: str) -> str:
-    """Вычисляет результат выражения"""
+def get_expression_result(expression: str, x_value: str) -> str:  # x value увести в модель
+    """Вычисляет выражения и
+    Возвращает строку - результат вычислений выражения или текст ошибки
+    параметры - выражение, значениие х"""
     try:
         calcs = calculator.Calculator()  # куда-то мб вынести и создавать класс один раз ?
         return calcs.calculate(expression)

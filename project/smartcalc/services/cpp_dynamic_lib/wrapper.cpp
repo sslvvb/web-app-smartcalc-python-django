@@ -15,10 +15,11 @@ int tmp(int num) {
   return model.res(num);
 }
 
-double GetResult(const char* str) {  // надо на string заменить ?
+double GetResult(const char* expression, const char* x_value) {  // надо на string заменить ?
   s21::Model model;
-  std::cout << str << "   wrapper string" << std::endl;
-  return model.GetResult(str); // float возвращать ?
+  std::cout << expression << "   wrapper string" << std::endl;
+  // перевести х к даблу и отправить в модель
+  return model.GetResult(expression); // float возвращать ?
 }
 
 #ifdef __cplusplus

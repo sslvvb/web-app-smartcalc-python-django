@@ -20,10 +20,11 @@ def about(request):
     return render(request, "about.html")
 
 
-def calculate_expression(request):  # мб на главную перенести ?
+# одна функция на вычисления с иксом и без него ! один контроллер на обе функциональности
+def get_expression_result(request):  # мб на главную перенести ?
     """Веб-сервис, выполняющий вычисление выражения"""
     if request.method == 'POST':
-        result: str = services.calculate_expression(request.POST.get('expression'))
+        result: str = services.get_expression_result(request.POST.get('expression'), request.POST.get('x_num'))
         return render(request, "index.html", {'result': result})
     else:
         return HttpResponse(status=400)  # ???
