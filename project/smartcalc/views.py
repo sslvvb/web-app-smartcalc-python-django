@@ -4,30 +4,22 @@ from .services import services
 
 
 def index(request):
-    """Main application page"""
-    return render(request, "index.html")
-
-
-def settings(request):
-    return render(request, "settings.html")
-
-
-def graph(request):
-    return render(request, "graph.html")
-
-
-def about(request):
-    return render(request, "about.html")
-
-
-# одна функция на вычисления с иксом и без него ! один контроллер на обе функциональности
-def get_expression_result(request):  # мб на главную перенести ?
-    """Веб-сервис, выполняющий вычисление выражения"""
+    """Главная страница + веб-сервис, выполняющий вычисление выражения"""
     if request.method == 'POST':
         result: str = services.get_expression_result(request.POST.get('expression'), request.POST.get('x_num'))
         return render(request, "index.html", {'result': result})
     else:
-        return HttpResponse(status=400)  # ???
+        return render(request, "index.html")
+
+
+# TODO: строку х сделать только для чисел и запретить туда ввод невалидных символов
+
+# когда закончили вычисление и вернули результат на экран - очищать поле в сыражением при первом нажатии нового
+# символа, юзерфрендли - это для вью части
+
+
+def settings(request):
+    return render(request, "settings.html")
 
 
 def graph_expression(request):
@@ -41,33 +33,13 @@ def graph_expression(request):
         return HttpResponse(status=400)
 
 
+def about(request):
+    return render(request, "about.html")
+
+
+# TODO: общее в хтмл вынести в base.html
+
+
 def page_not_found(request, exception):
     # сюда добавить красивую страничку для 404
     return HttpResponseNotFound("sslvvb Страница не найдена")
-
-# def calculate(request):
-#     expression = request.GET.get('expression')
-#     # Perform calculations on the expression string
-#     result = evaluate_expression(expression)
-#     # Return the result as JSON response
-#     return JsonResponse({'result': result})
-
-
-# def calculate_expression(request):
-#     if request.method == 'POST':
-#         expression = request.POST.get('expression')
-#         double_num = request.POST.get('double_num')
-
-#         # Perform calculations using the expression and double_num
-#         # You can use eval() to evaluate the expression, but be cautious about potential security risks
-
-#         # Evaluate the expression (example, but not recommended for production)
-#         # result = eval(expression)
-#         result = expression
-
-#         # Pass the result back to the template for display
-#         context = {'result': result}
-#         return render(request, 'result.html', context)
-
-#     # Handle GET request or other cases
-#     return render(request, 'index.html')

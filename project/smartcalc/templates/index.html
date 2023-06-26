@@ -101,7 +101,7 @@
             <br>
             <button onclick="appendValue('tan'); return false;">tan</button>
             <button onclick="appendValue('atan'); return false;">atan</button>
-            <button onclick="appendValue('4'); return false;;">4</button>
+            <button onclick="appendValue('4'); return false;">4</button>
             <button onclick="appendValue('5'); return false;">5</button>
             <button onclick="appendValue('6'); return false;">6</button>
             <button class="btn-pink" onclick="appendValue('*'); return false;">*</button>
@@ -134,18 +134,15 @@
     }
 
     function evaluateExpression() {
-        {#const expression = document.getElementById('expression').value; // а где она тогда используется ?#}
-        // раз не используется, то можно делать офну функцию на все запросы ? или как лучше разделить ?
         const form = document.getElementById('calculator-form');
-        // на индекс с проверкой на пост переделать (шта ?)
-        form.action = '/calculate';  // Set the backend endpoint for calculation
+        form.action = '/';  // Set the backend endpoint for calculation
         form.method = 'POST';  // Use POST method to send data
         form.submit();
     }
 
     function graphExpression() {
-        var expression = document.getElementById('expression').value;
-        var form = document.getElementById('calculator-form');
+        {#var expression = document.getElementById('expression').value;#}
+        const form = document.getElementById('calculator-form');
         form.action = '/graph';  // Set the backend endpoint for graphing
         form.method = 'POST';  // Use POST method to send data
         form.submit();

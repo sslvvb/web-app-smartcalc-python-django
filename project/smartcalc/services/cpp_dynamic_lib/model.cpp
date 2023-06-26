@@ -2,6 +2,7 @@
 
 namespace s21 {
 
+// можно не использовать в моей модели
 double Model::GetResult(const char* str) {
   nodes_ = parser_.ParseNodes(str);
   ConvertToRPN();
