@@ -1,4 +1,4 @@
-env_sslvvb
+project/env_sslvvb
 **/__pycache__
 **/**/__pycache__
-../.idea/
+**/.idea/
