@@ -56,13 +56,7 @@ class Model {
   Model& operator=(Model&& other) = delete;
   ~Model() = default;
 
-  int res(int num) { return num * 2; }
-
   double GetResult(const char* str);
-  double GetResult(std::string str) {
-    std::cout << str << "from cpp class" << std::endl;
-    return 313;
-  }
   double GetResult(const char* str, double x_value);
   std::pair<std::vector<double>, std::vector<double>> GetResultForGraph(
       const char* str, double x_min, double x_max);

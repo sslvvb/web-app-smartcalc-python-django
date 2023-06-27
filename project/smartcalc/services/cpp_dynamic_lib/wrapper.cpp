@@ -10,11 +10,6 @@
 extern "C" {
 #endif
 
-int tmp(int num) {
-  s21::Model model;
-  return model.res(num);
-}
-
 double GetResult(const char* expression, const char* x_value) {  // надо на string заменить ?
   s21::Model model;
   std::cout << expression << "   wrapper string" << std::endl;

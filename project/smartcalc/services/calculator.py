@@ -8,12 +8,13 @@ import ctypes
 
 class Calculator:
     def __init__(self) -> None:
-        # путь проверить
-        self.model_lib = ctypes.CDLL(
-            '/opt/goinfre/hjerilyn/projects/python_calc_4/my_github_calc_web/project/smartcalc/services/model.so')
+        self.model_lib = ctypes.CDLL(  # TODO: путь сделать относительно проекта + мб в билд переложить ?
+            # '/opt/goinfre/hjerilyn/projects/python_calc_4/my_github_calc_web/project/smartcalc/services/model.so')
+            '/Users/sslvvb/Documents/S21/Projects/Python/python_calc_4/my_github_web_calc/project/smartcalc/services/model.so')
 
         # example_function = self.model_lib.GetResult
         self.model_lib.GetResult.argtypes = [ctypes.c_char_p]
+        self.model_lib.GetResult.argtypes = [ctypes.c_double]
         self.model_lib.GetResult.restype = ctypes.c_double
 
     def calculate(self, expression) -> str:

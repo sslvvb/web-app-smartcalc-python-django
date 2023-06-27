@@ -6,6 +6,7 @@ from .services import services
 def index(request):
     """Главная страница + веб-сервис, выполняющий вычисление выражения"""
     if request.method == 'POST':
+        # проверить данные на валиднось первично - нет лишних символов и все такое
         result: str = services.get_expression_result(request.POST.get('expression'), request.POST.get('x_num'))
         return render(request, "index.html", {'result': result})
     else:
