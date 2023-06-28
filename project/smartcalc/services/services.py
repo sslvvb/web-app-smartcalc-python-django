@@ -1,10 +1,36 @@
+"""Фасад модели. Вывает функции всех модулей модели. Cлой бизнес-логики, который вызывает другие слои бизнес-логики"""
+
 from . import calculator
 from . import utils
 from . import history
-from . import logging  # rename ?
 
-"""фасад для моей модели - все основные главные функции вызываются отсюда.
-Cлой бизнес-логики, который вызывает другие слои бизнес-логики"""
+
+def read_history() -> list:
+    """Вызывает функцию чтения истории введенных выражений модуля history
+
+    Returns:
+        list: Список из введенных выражений и значения x.
+    """
+    return history.read_file()
+
+
+def write_history(expression: str, x_value: str) -> list:
+    """"""
+    record_line: str = '; '.join((expression, x_value))  # TODO: collect valid line
+    return history.write_history(record_line)
+
+
+def clean_history() -> list:
+    """Вызывает функцию очищения истории введенных выражений модуля history
+
+    Returns:
+        list: Пустой список введенных выражений.
+    """
+    return history.clean()
+
+
+# def select_history():
+#     pass
 
 
 def get_expression_result(expression: str, x_value: str) -> str:

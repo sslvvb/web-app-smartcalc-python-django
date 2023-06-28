@@ -3,15 +3,28 @@ from django.shortcuts import render
 from .services import services
 
 
-def index(request):
+def index(request):  # return value and oaram type
     """Главная страница. Веб-сервис, выполняющий вычисление выражения"""
+
+    data: dict = {'history': services.read_history()}
+
     if request.method == 'POST':
-        if request.POST.get('expression') == '' or request.POST.get('x_num') == '':
-            return render(request, "index.html", {'result': 'Please, enter an expression'})
-        result: str = services.get_expression_result(request.POST.get('expression'), request.POST.get('x_num'))
-        return render(request, "index.html", {'result': result})
-    else:
-        return render(request, "index.html")
+
+        if 'clean_history' in request.POST:
+            data['history'] = services.clean_history()
+            return render(request, "index.html", data)
+
+        elif 'equal' in request.POST:
+            if request.POST.get('expression') == '' or request.POST.get('x_num') == '':
+                return render(request, "index.html", {'result': 'Please, enter an expression'})
+            else:
+                result: str = services.get_expression_result(request.POST.get('expression'), request.POST.get('x_num'))
+                data['history'] = services.write_history(request.POST.get('expression'), request.POST.get(
+                    'x_num'))  # запишем только если посчиталось без ошибок или всегда ???
+                data['result'] = result
+                return render(request, "index.html", data)
+
+    return render(request, "index.html", data)
 
 
 def settings(request):

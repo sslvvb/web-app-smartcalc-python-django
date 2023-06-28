@@ -63,47 +63,59 @@
             font-size: 18px;
         }
 
-        /*.tabs-container {*/
-        /*    display: flex;*/
-        /*    justify-content: center;*/
-        /*    margin-top: 20px;*/
-        /*    margin-bottom: 20px;*/
-        /*}*/
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        {#margin-right: 10px;#}
+        }
 
-        /*.tab-form {*/
-        /*    border: none;*/
-        /*    background: none;*/
-        /*    color: blue;*/
-        /*    cursor: pointer;*/
-        /*    text-decoration: underline;*/
-        /*    font-size: inherit;*/
-        /*    font-family: inherit;*/
-        /*    padding: 0;*/
-        /*    margin-right: 10px;*/
-        /*}*/
+        .tab-form {
+            border: none;
+            background: none;
+            color: blue;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: inherit;
+            font-family: inherit;
+            padding: 0;
+            margin-right: 10px;
+        }
+
+        .select-container-history {
+            width: 600px;
+            background-color: rgba(255, 214, 230);
+            border-radius: 10px;
+            padding: 10px;
+            color: rgba(64, 65, 1);
+            border-color: rgba(64, 65, 1);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 
 <body>
 
-<!--<div class="tabs-container">-->
-<!--    <form action="" method="GET">-->
-<!--&lt;!&ndash;        {% csrf_token %}&ndash;&gt;-->
-<!--        <input type="submit" value="Calculator" class="tab-form">-->
-<!--    </form>-->
-<!--    <form action="/about">-->
-<!--&lt;!&ndash;        {% csrf_token %}&ndash;&gt;-->
-<!--        <input type="submit" value="About" class="tab-form">-->
-<!--    </form>-->
-<!--</div>-->
+<div class="tabs-container">
+    <form action="" method="GET">
+        {#        {% csrf_token %}#}
+        <input type="submit" value="Calculator" class="tab-form">
+    </form>
+    <form action="/about">
+        {#        {% csrf_token %}#}
+        <input type="submit" value="About" class="tab-form">
+    </form>
+</div>
 
 <div class="container">
     <div class="calculator">
         <form id="calculator-form">
-            <!--            {% csrf_token %}-->
+            {% csrf_token %}
             <input type="text" class="expression-input" id="expression" name="expression"
-                   placeholder="Enter an expression"
-                   value="{{ result }}">
+                   placeholder="Enter an expression" value="{{ result }}">
             <br>
             <button type="button" onclick="graphExpression()">GRAPH</button>
             <button onclick="appendValue('x'); return false;">x</button>
@@ -142,11 +154,28 @@
             <button onclick="appendValue('log'); return false;">log</button>
             <button onclick="appendValue('.'); return false;">.</button>
             <button onclick="appendValue('0'); return false;">0</button>
-            <button onclick="evaluateExpression()">=</button>
+            <button name="equal" onclick="evaluateExpression()">=</button>
             <button class="btn-pink" onclick="appendValue('+'); return false;">+</button>
+
+            <div class="col-sm-4 right">
+                <h4 style="text-align: center;">History</h4>
+                <div style="text-align: center;">
+                    <select class="select-container-history" name="history" style="width: 600px;">
+                        {% for iter in history %}
+                            <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="tabs-container">
+                    <button style="margin: 5px 3px;">Select</button>
+                    <button name="clean_history" onclick="historyClean();" style="margin: 5px 2px;">Clean</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
+
 
 <script>
 
@@ -162,6 +191,20 @@
         const form = document.getElementById('calculator-form');
         form.action = '/';  // Set the backend endpoint for calculation
         form.method = 'POST';  // Use POST method to send data
+        form.submit();
+    }
+
+    function historySelect() {
+        const form = document.getElementById('calculator-form');
+        form.action = '/';
+        form.method = 'POST';
+        form.submit();
+    }
+
+    function historyClean() {
+        const form = document.getElementById('calculator-form');
+        form.action = '/';
+        form.method = 'POST';
         form.submit();
     }
 

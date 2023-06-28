@@ -19,11 +19,13 @@ Including another URLconf
 # определение функций
 
 from django.urls import path, include
-from smartcalc import views
+# from smartcalc import views
+from django.contrib import admin
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', include('smartcalc.urls')),
     # admin include
 ]
 
-handler404 = views.page_not_found # а какой стиль в питоне ??
+# handler404 = views.page_not_found  # а какой стиль в питоне ??
