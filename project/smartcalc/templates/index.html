@@ -62,20 +62,45 @@
             text-decoration: none;
             font-size: 18px;
         }
+
+        /*.tabs-container {*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*    margin-top: 20px;*/
+        /*    margin-bottom: 20px;*/
+        /*}*/
+
+        /*.tab-form {*/
+        /*    border: none;*/
+        /*    background: none;*/
+        /*    color: blue;*/
+        /*    cursor: pointer;*/
+        /*    text-decoration: underline;*/
+        /*    font-size: inherit;*/
+        /*    font-family: inherit;*/
+        /*    padding: 0;*/
+        /*    margin-right: 10px;*/
+        /*}*/
     </style>
 </head>
 
 <body>
 
-<div style="text-align: center; margin-top: 20px; margin-bottom: 20px; ">
-    <!-- тут тоже формы мб ? с гет запросом -->
-    <a href="index.html">Calculator</a> | <a href="http://127.0.0.1:8000/about">About</a>
-</div>
+<!--<div class="tabs-container">-->
+<!--    <form action="" method="GET">-->
+<!--&lt;!&ndash;        {% csrf_token %}&ndash;&gt;-->
+<!--        <input type="submit" value="Calculator" class="tab-form">-->
+<!--    </form>-->
+<!--    <form action="/about">-->
+<!--&lt;!&ndash;        {% csrf_token %}&ndash;&gt;-->
+<!--        <input type="submit" value="About" class="tab-form">-->
+<!--    </form>-->
+<!--</div>-->
 
 <div class="container">
     <div class="calculator">
         <form id="calculator-form">
-            {% csrf_token %}
+            <!--            {% csrf_token %}-->
             <input type="text" class="expression-input" id="expression" name="expression"
                    placeholder="Enter an expression"
                    value="{{ result }}">
@@ -141,7 +166,9 @@
     }
 
     function graphExpression() {
-        {#var expression = document.getElementById('expression').value;#}
+        {
+            const expression = document.getElementById('expression').value;
+        }
         const form = document.getElementById('calculator-form');
         form.action = '/graph';  // Set the backend endpoint for graphing
         form.method = 'POST';  // Use POST method to send data

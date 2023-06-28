@@ -4,19 +4,14 @@ from .services import services
 
 
 def index(request):
-    """Главная страница + веб-сервис, выполняющий вычисление выражения"""
+    """Главная страница. Веб-сервис, выполняющий вычисление выражения"""
     if request.method == 'POST':
-        # проверить данные на валиднось первично - нет лишних символов и все такое
+        if request.POST.get('expression') == '' or request.POST.get('x_num') == '':
+            return render(request, "index.html", {'result': 'Please, enter an expression'})
         result: str = services.get_expression_result(request.POST.get('expression'), request.POST.get('x_num'))
         return render(request, "index.html", {'result': result})
     else:
         return render(request, "index.html")
-
-
-# TODO: строку х сделать только для чисел и запретить туда ввод невалидных символов
-
-# когда закончили вычисление и вернули результат на экран - очищать поле в сыражением при первом нажатии нового
-# символа, юзерфрендли - это для вью части
 
 
 def settings(request):
@@ -36,9 +31,6 @@ def graph_expression(request):
 
 def about(request):
     return render(request, "about.html")
-
-
-# TODO: общее в хтмл вынести в base.html
 
 
 def page_not_found(request, exception):

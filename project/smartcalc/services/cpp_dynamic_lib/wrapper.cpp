@@ -4,17 +4,17 @@
 // В модель должны быть вынесены все функциональные возможности калькулятора
 // таким образом, чтобы в будущем ее можно было использовать без остальных слоев
 
-// Подготовить полно е покрытие unit-тестами методов, находящихся в слое модели
+// Подготовить полное покрытие unit-тестами методов, находящихся в слое модели
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-double GetResult(const char* expression, const char* x_value) {  // надо на string заменить ?
+// надо на string заменить ?
+// как обрабатывать если возвращается ошибка ?
+double GetResult(const char* expression) {
   s21::Model model;
-  std::cout << expression << "   wrapper string" << std::endl;
-  // перевести х к даблу и отправить в модель
-  return model.GetResult(expression); // float возвращать ?
+  return model.GetResult(expression);
 }
 
 #ifdef __cplusplus
