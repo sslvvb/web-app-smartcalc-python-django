@@ -28,13 +28,13 @@ def clean() -> list:
         return file.readlines()
 
 
-def write_history(record_line: str) -> list:
-    """Чистает историю запросов из файла history.txt
+def write(record_line: str) -> list:
+    """Добавляет новый запрос в файл с историей запросов history.txt
 
     Returns:
-        list: Список из введенных выражений и значения x.
-        """
-    # Path(HISTORY_PATH).touch(exist_ok=True)
+        list: Обновленный список из введенных выражений и значения x.
+    """
+    Path(HISTORY_PATH).touch(exist_ok=True)
     with open(HISTORY_PATH, 'a+', encoding='utf-8') as file:
         print(record_line, file=file)
         file.seek(0)

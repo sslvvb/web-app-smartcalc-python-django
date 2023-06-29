@@ -14,24 +14,28 @@ def index(request):  # return value and oaram type
             data['history'] = services.clean_history()
             return render(request, "index.html", data)
 
+        elif 'select' in request.POST:
+            history_item = request.POST.get('history')
+            print(history_item)
+            # взять параметр
+            # распарсить за значения to data
+            # вернуть как data
+            return render(request, "index.html", data)
+
         elif 'equal' in request.POST:
             if request.POST.get('expression') == '' or request.POST.get('x_num') == '':
                 return render(request, "index.html", {'result': 'Please, enter an expression'})
             else:
                 result: str = services.get_expression_result(request.POST.get('expression'), request.POST.get('x_num'))
-                data['history'] = services.write_history(request.POST.get('expression'), request.POST.get(
+                data['history'] = services.write_history(request.POST.get('expression'), result, request.POST.get(
                     'x_num'))  # запишем только если посчиталось без ошибок или всегда ???
                 data['result'] = result
                 return render(request, "index.html", data)
 
-    return render(request, "index.html", data)
+    return render(request, "index.html", data)  # могу возвращать не словарик, а объект класса - см метанит
 
 
-def settings(request):
-    return render(request, "settings.html")
-
-
-def graph_expression(request):
+def graph(request):
     """Веб-сервис, выполняющий отрисовку графика выражения"""
     if request.method == 'POST':
         expression = request.POST.get('expression')
@@ -40,10 +44,6 @@ def graph_expression(request):
         return render(request, 'graph.html')
     else:
         return HttpResponse(status=400)
-
-
-def about(request):
-    return render(request, "about.html")
 
 
 def page_not_found(request, exception):

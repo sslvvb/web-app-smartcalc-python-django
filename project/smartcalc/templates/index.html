@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 
 <head>
     <title>SmartCalc</title>
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
     <style>
         html {
             background-color: rgb(248, 248, 248);
@@ -11,7 +13,7 @@
         .container {
             display: flex;
             justify-content: center;
-            height: 350px;
+            height: 540px;
         }
 
         .calculator {
@@ -68,17 +70,18 @@
             justify-content: center;
             margin-top: 20px;
             margin-bottom: 20px;
-        {#margin-right: 10px;#}
         }
 
         .tab-form {
             border: none;
             background: none;
-            color: blue;
+            color: rgba(64, 65, 1);
             cursor: pointer;
-            text-decoration: underline;
-            font-size: inherit;
+            /*text-decoration: underline;*/
+            /*font-size: inherit;*/
             font-family: inherit;
+            font-size: 18px;
+            font-weight: bold;
             padding: 0;
             margin-right: 10px;
         }
@@ -90,10 +93,9 @@
             padding: 10px;
             color: rgba(64, 65, 1);
             border-color: rgba(64, 65, 1);
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
         }
-
     </style>
 </head>
 
@@ -101,11 +103,11 @@
 
 <div class="tabs-container">
     <form action="" method="GET">
-        {#        {% csrf_token %}#}
+        {#{% csrf_token %}#}
         <input type="submit" value="Calculator" class="tab-form">
     </form>
     <form action="/about">
-        {#        {% csrf_token %}#}
+        {#{% csrf_token %}#}
         <input type="submit" value="About" class="tab-form">
     </form>
 </div>
@@ -158,11 +160,11 @@
             <button class="btn-pink" onclick="appendValue('+'); return false;">+</button>
 
             <div class="col-sm-4 right">
-                <h4 style="text-align: center;">History</h4>
+                <h3 style="text-align: center;">History</h3>
                 <div style="text-align: center;">
                     <select class="select-container-history" name="history" style="width: 600px;">
                         {% for iter in history %}
-                            <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
+                        <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
                         {% endfor %}
                     </select>
                 </div>

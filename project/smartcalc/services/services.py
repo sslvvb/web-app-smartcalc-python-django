@@ -14,10 +14,13 @@ def read_history() -> list:
     return history.read_file()
 
 
-def write_history(expression: str, x_value: str) -> list:
-    """"""
-    record_line: str = '; '.join((expression, x_value))  # TODO: collect valid line
-    return history.write_history(record_line)
+def write_history(expression: str, result: str, x_value: str) -> list:
+    """Вызывает функцию, добавляющую запрос в историю выражений модуля history
+
+    Returns:
+        list: Обновленный список из введенных выражений.
+    """
+    return history.write(f'{expression}={result}; x={x_value}')
 
 
 def clean_history() -> list:
@@ -27,10 +30,6 @@ def clean_history() -> list:
         list: Пустой список введенных выражений.
     """
     return history.clean()
-
-
-# def select_history():
-#     pass
 
 
 def get_expression_result(expression: str, x_value: str) -> str:

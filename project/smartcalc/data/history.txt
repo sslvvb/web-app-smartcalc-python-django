@@ -1,2 +1,6 @@
-44; 1.0
-EXCEPTION ERROR FROM services.py: dlopen(/Users/sslvvb/Documents/S21/Projects/Python/python_calc_4/my_github_web_calc/project/smartcalc/services/model.so, 6): image not found88; 1.0
+1122=1122.0; x=1.0
+569-3255=-2686.0; x=1.0
+686876=686876.0; x=1.0
+686876.0=686876.0; x=1.0
+8.0+9=17.0; x=1.0
+11=11.0; x=1.0
