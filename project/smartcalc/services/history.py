@@ -35,7 +35,10 @@ def write(record_line: str) -> list:
         list: Обновленный список из введенных выражений и значения x.
     """
     Path(HISTORY_PATH).touch(exist_ok=True)
-    with open(HISTORY_PATH, 'a+', encoding='utf-8') as file:
-        print(record_line, file=file)
-        file.seek(0)
+    with open(HISTORY_PATH, 'r', encoding='utf-8') as file:
+        file_lines: list = file.readlines()
+    with open(HISTORY_PATH, 'w', encoding='utf-8') as file:
+        file.write(record_line + '\n')
+        file.writelines([line + '\n' for line in file_lines[:-1]])
+    with open(HISTORY_PATH, 'r', encoding='utf-8') as file:
         return file.readlines()
