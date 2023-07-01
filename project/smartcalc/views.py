@@ -10,7 +10,7 @@ def index(request):  # return value and oaram type
 
     if request.method == 'POST':
         expression: str = request.POST.get('expression')
-        x_num: str = request.POST.get('x_num')
+        x_value: str = request.POST.get('x_num')
 
         if 'clean_history' in request.POST:
             data['history'] = services.clean_history()
@@ -23,11 +23,12 @@ def index(request):  # return value and oaram type
             data['history'] = services.write_history(history_item)
 
         elif 'equal' in request.POST:
-            if expression == '' or x_num == '':
+            if expression == '' or x_value == '':
                 data['expression_or_result'] = 'Please, enter an expression'
             else:
-                result: str = services.get_expression_result(expression, x_num)
-                data['history'] = services.write_history(f'{expression}={result}; x={x_num}')  # только если без ошибок
+                result: str = services.get_expression_result(expression, x_value)
+                # только если без ошибок
+                data['history'] = services.write_history(f'{expression}={result}; x={x_value}')
                 data['expression_or_result'] = result
 
     return render(request, "index.html", data)  # могу возвращать не словарик, а объект класса - см метанит
