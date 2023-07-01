@@ -9,28 +9,26 @@ def index(request):  # return value and oaram type
     data: dict = {'history': services.read_history()}
 
     if request.method == 'POST':
+        expression: str = request.POST.get('expression')
+        x_num: str = request.POST.get('x_num')
 
         if 'clean_history' in request.POST:
             data['history'] = services.clean_history()
-            return render(request, "index.html", data)
 
         elif 'select' in request.POST:
-            history_item = request.POST.get('history')
-            print(history_item)
-            # взять параметр
-            # распарсить за значения to data
-            # вернуть как data
-            return render(request, "index.html", data)
+            history_item: str = request.POST.get('history').rstrip()
+            split_lines: list = history_item.split('=')
+            data['expression_or_result'] = split_lines[0]
+            data['x_value'] = split_lines[2]
+            data['history'] = services.write_history(history_item)
 
         elif 'equal' in request.POST:
-            if request.POST.get('expression') == '' or request.POST.get('x_num') == '':
-                return render(request, "index.html", {'result': 'Please, enter an expression'})
+            if expression == '' or x_num == '':
+                data['expression_or_result'] = 'Please, enter an expression'
             else:
-                result: str = services.get_expression_result(request.POST.get('expression'), request.POST.get('x_num'))
-                data['history'] = services.write_history(request.POST.get('expression'), result, request.POST.get(
-                    'x_num'))  # запишем только если посчиталось без ошибок или всегда ???
-                data['result'] = result
-                return render(request, "index.html", data)
+                result: str = services.get_expression_result(expression, x_num)
+                data['history'] = services.write_history(f'{expression}={result}; x={x_num}')  # только если без ошибок
+                data['expression_or_result'] = result
 
     return render(request, "index.html", data)  # могу возвращать не словарик, а объект класса - см метанит
 

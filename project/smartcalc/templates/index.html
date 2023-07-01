@@ -117,11 +117,11 @@
         <form id="calculator-form">
             {% csrf_token %}
             <input type="text" class="expression-input" id="expression" name="expression"
-                   placeholder="Enter an expression" value="{{ result }}">
+                   placeholder="Enter an expression" value="{{ expression_or_result }}">
             <br>
             <button type="button" onclick="graphExpression()">GRAPH</button>
             <button onclick="appendValue('x'); return false;">x</button>
-            <input type="text" class="x-input" id="x_num" name="x_num" value="1.0">
+            <input type="text" class="x-input" id="x_num" name="x_num" value="{{ x_value|default:'1.0' }}">
             <button class="btn-pink" onclick="clearExpression(); return false;">AC</button>
             <br>
             <button onclick="appendValue('sin'); return false;">sin</button>
@@ -170,7 +170,7 @@
                 </div>
 
                 <div class="tabs-container">
-                    <button style="margin: 5px 3px;">Select</button>
+                    <button name="select" onclick="historySelect();" style="margin: 5px 3px;">Select</button>
                     <button name="clean_history" onclick="historyClean();" style="margin: 5px 2px;">Clean</button>
                 </div>
             </div>

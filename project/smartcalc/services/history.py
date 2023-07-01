@@ -39,6 +39,6 @@ def write(record_line: str) -> list:
         file_lines: list = file.readlines()
     with open(HISTORY_PATH, 'w', encoding='utf-8') as file:
         file.write(record_line + '\n')
-        file.writelines([line + '\n' for line in file_lines[:-1]])
+        file.writelines([line for line in file_lines])
     with open(HISTORY_PATH, 'r', encoding='utf-8') as file:
         return file.readlines()

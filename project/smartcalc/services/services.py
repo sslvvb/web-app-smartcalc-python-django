@@ -14,13 +14,13 @@ def read_history() -> list:
     return history.read_file()
 
 
-def write_history(expression: str, result: str, x_value: str) -> list:
+def write_history(string_to_write: str) -> list:
     """Вызывает функцию, добавляющую запрос в историю выражений модуля history
 
     Returns:
         list: Обновленный список из введенных выражений.
     """
-    return history.write(f'{expression}={result}; x={x_value}')
+    return history.write(string_to_write)
 
 
 def clean_history() -> list:
