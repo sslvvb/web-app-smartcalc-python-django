@@ -39,12 +39,22 @@ def index(request):  # return value and oaram type
 def graph(request):
     """Веб-сервис, выполняющий отрисовку графика выражения"""
     if request.method == 'POST':
+
         expression = request.POST.get('expression')
-        # Generate the chart based on the expression
-        # You can use libraries like matplotlib or Chart.js to create the chart
+        x_min = request.POST.get('x_min')
+        x_max = request.POST.get('x_max')
+
+        # result =
+        services.graph_expression_result(expression, x_min, x_max)
+
+        # print(type(result))
+        # print(result)
+
+        # засунуть все в список и возвращать два смежных списка
+
         return render(request, 'graph.html')
-    else:
-        return HttpResponse(status=400)
+    # else:
+    #     return HttpResponse(status=400)  # change to /
 
 
 def page_not_found(request, exception):

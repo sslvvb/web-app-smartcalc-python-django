@@ -33,7 +33,8 @@ def clean_history() -> list:
 
 
 def get_expression_result(expression: str, x_value: str) -> str:
-    """Вычисляет выражение. Возвращает строку - результат вычислений или текст ошибки.
+    """вызывает функцию
+    Вычисляет выражение. Возвращает строку - результат вычислений или текст ошибки.
     параметры - выражение, значениие х"""
 
     if utils.check_expression_valid(expression) is False:
@@ -43,6 +44,7 @@ def get_expression_result(expression: str, x_value: str) -> str:
 
     # сохранить в историю
 
+    # а если два х подряд ? где это обработается ?
     if "x" in expression:
         expression = expression.replace("x", x_value)
 
@@ -53,5 +55,6 @@ def get_expression_result(expression: str, x_value: str) -> str:
         return f"EXCEPTION ERROR FROM services.py: {str(e)}"
 
 
-def graph_expression_result():  # ?
-    pass
+def graph_expression_result(expression: str, x_min: str, x_max: str):  # ?
+    calcs = calculator.Calculator()
+    return calcs.graph_calculate(expression, x_min, x_max)

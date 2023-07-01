@@ -17,6 +17,11 @@ double GetResult(const char* expression) {
   return model.GetResult(expression);
 }
 
+std::pair<std::vector<double>, std::vector<double>> GetResultForGraph(const char* str, double x_min, double x_max) {
+  s21::Model model;
+  return model.GetResultForGraph(str, x_min, x_max);
+}
+
 #ifdef __cplusplus
 }
 #endif
