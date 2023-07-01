@@ -6,7 +6,7 @@ from .services import services
 def index(request):  # return value and oaram type
     """Главная страница. Веб-сервис, выполняющий вычисление выражения"""
 
-    data: dict = {'history': services.read_history()}
+    data: dict = {'history': services.read_history()}  # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
 
     if request.method == 'POST':
         expression: str = request.POST.get('expression')
@@ -16,11 +16,13 @@ def index(request):  # return value and oaram type
             data['history'] = services.clean_history()
 
         elif 'select' in request.POST:
-            history_item: str = request.POST.get('history').rstrip()
-            split_lines: list = history_item.split('=')
-            data['expression_or_result'] = split_lines[0]
-            data['x_value'] = split_lines[2]
-            data['history'] = services.write_history(history_item)
+            history_item: str = request.POST.get('history')
+            if history_item:
+                history_item = history_item.rstrip()
+                split_lines: list = history_item.split('=')
+                data['expression_or_result'] = split_lines[0]
+                data['x_value'] = split_lines[2]
+                data['history'] = services.write_history(history_item)
 
         elif 'equal' in request.POST:
             if expression == '' or x_value == '':
