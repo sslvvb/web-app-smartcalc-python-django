@@ -20,11 +20,15 @@ double Model::GetResult(const char* str, double x_value) {
 
 std::pair<std::vector<double>, std::vector<double>> Model::GetResultForGraph(
     const char* str, double x_min, double x_max) {
+  std::cout << "start model" << std::endl;
   nodes_ = parser_.ParseNodes(str);
+  std::cout << "parse" << std::endl;
   ConvertToRPN();
+  std::cout << "convert" << std::endl;
   std::vector<double> scope_x;
   std::vector<double> scope_y;
-  double step = (x_max - x_min) / 1e5;
+//  double step = (x_max - x_min) / 1e5;
+  double step = (x_max - x_min) / 15;
   for (double x = x_min; x <= (x_max + step); x += step) {
     list tmp = nodes_in_rpn_;
     XToNumberReplace(&tmp, x);
@@ -47,9 +51,11 @@ void Model::XToNumberReplace(list* list_nodes, double x_value) {
 }
 
 std::list<std::pair<double, Type>> Model::Parser::ParseNodes(const char* str) {
+  std::cout << "start parse nodes  // " << str << std::endl;
   while (*str) {
     GetType(&str);
   }
+  std::cout << "while parse nodes" << std::endl;
   Type last_type = GetPrevType();
   if ((last_type >= kBasicPlus && last_type <= kOpenBrckt) || brckt_flag_) {
     throw std::invalid_argument("ERROR");

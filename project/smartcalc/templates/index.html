@@ -79,17 +79,15 @@
             <button onclick="return false;">y_max</button>
             <input type="text" class="x-graph-input" id="y_max" name="y_max" value="{{ y_max|default:'10' }}">
 
-
             <div class="col-sm-4 right">
                 <h3 style="text-align: center;">History</h3>
                 <div style="text-align: center;">
                     <select class="select-container-history" name="history" style="width: 600px;">
                         {% for iter in history %}
-                        <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
+                            <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
                         {% endfor %}
                     </select>
                 </div>
-
                 <div class="tabs-container">
                     <button name="select" onclick="historySelect();" style="margin: 5px 3px;">Select</button>
                     <button name="clean_history" onclick="historyClean();" style="margin: 5px 2px;">Clean</button>
@@ -98,7 +96,6 @@
         </form>
     </div>
 </div>
-
 
 </body>
 
