@@ -32,25 +32,27 @@ class Calculator:
         self.model_lib.GetResultForGraph.argtypes = [ctypes.c_char_p, ctypes.c_double, ctypes.c_double]
         self.model_lib.GetResultForGraph.restype = ctypes.POINTER(ctypes.c_double)
         print("we are here")
-        # try:
-        result_ptr = self.model_lib.GetResultForGraph(
-            expression.encode(),
-            float(x_min),
-            float(x_max)
-        )
+        return 313
 
-        result_list = self.convert_result(result_ptr)
-
-        # result = self.model_lib.GetResultForGraph(expression.encode(), float(x_min), float(x_max))
-
-        # result_list = convert_result(result)
-
-        print("calculator.py")
-        print(result_list)
-        print(type(result_list))
-        return result_list
-        # except Exception as e:
-        #     return f"EXCEPTION ERROR FROM calculator.py: {str(e)}"
+        # # try:
+        # result_ptr = self.model_lib.GetResultForGraph(
+        #     expression.encode(),
+        #     float(x_min),
+        #     float(x_max)
+        # )
+        #
+        # result_list = self.convert_result(result_ptr)
+        #
+        # # result = self.model_lib.GetResultForGraph(expression.encode(), float(x_min), float(x_max))
+        #
+        # # result_list = convert_result(result)
+        #
+        # print("calculator.py")
+        # print(result_list)
+        # print(type(result_list))
+        # return result_list
+        # # except Exception as e:
+        # #     return f"EXCEPTION ERROR FROM calculator.py: {str(e)}"
 
     # Define a helper function to convert the result to Python lists
     def convert_result(result):

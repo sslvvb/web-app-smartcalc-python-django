@@ -45,7 +45,7 @@ def graph(request):
         x_max = request.POST.get('x_max')
 
         # result =
-        services.graph_expression_result(expression, x_min, x_max)
+        services.graph_expression_result(expression, x_min, x_max)  # get or calc ?
 
         # print(type(result))
         # print(result)
