@@ -1,6 +1,7 @@
 """Model class, wrapper for C++ kernel."""
 
 import ctypes
+import numpy as np
 
 # Define the C++ function prototype
 graph_calculate_func = ctypes.CFUNCTYPE(
@@ -17,7 +18,7 @@ def convert_to_list(pointer, length):
     return list(array)
 
 
-# мб избавлюсь от класса если он не понадобится для графика
+# мб избавлюсь от класса если он не понадобится для графика ?
 class Calculator:
     def __init__(self) -> None:
         self.model_lib = ctypes.CDLL(
@@ -35,65 +36,38 @@ class Calculator:
         # это все бесполезно, потому что плюсы падают при невалидном вводе.
 
     def graph_calculate(self, expression: str, x_min: str, x_max: str):
-        self.model_lib.printString.argtypes = [ctypes.c_char_p, ctypes.c_double]
-        self.model_lib.printString.restype = ctypes.POINTER(ctypes.c_double)
+        верну через double* переданные как параметры !
 
-        d: str = "4"
-        result_ptr = self.model_lib.printString(expression.encode('utf-8'), float(d))
-        result_length = 3
-        result = convert_to_list(result_ptr, result_length)
-        print(f'{result} is python list')
+        # self.model_lib.printString.restype = ctypes.POINTER(ctypes.c_double)
+        # result_ptr = self.model_lib.printString()
+        # size = 3  # 1000 ?
+        # vec = [result_ptr[i] for i in range(size)]
+        # print(vec)
 
-        # self.model_lib.GetResultForGraph.argtypes = [ctypes.c_char_p, ctypes.c_double, ctypes.c_double]
-        # self.model_lib.GetResultForGraph.restype = ctypes.POINTER(ctypes.c_double)
-        #
-        # print("we are here")
-        # print(expression)
-        # print(x_min)
-        # print(x_max)
-        #
-        # try:
-        #     self.model_lib.GetResultForGraph(expression.encode('utf-8'), float(x_min), float(x_max))
-        #     print("done")
-        # except Exception as e:
-        #     return f"EXCEPTION ERROR FROM calculator.py: {str(e)}"
-        #
-        # # result_list = self.convert_result(result_ptr)
-        # # result = self.model_lib.GetResultForGraph(expression.encode(), float(x_min), float(x_max))
-        # # result_list = convert_result(result)
-        # # print("calculator.py")
-        # # print(result_list)
-        # # print(type(result_list))
-        # # return result_list
-        # # print("we are here")
+        self.model_lib.printString.restype = ctypes.py_object
+        tuple_obj = self.model_lib.printString()  # Call the function to get the tuple
+        vec1_ptr, vec2_ptr = tuple_obj  # Extract the size and pointers from the tuple
+        size = 3
+        vec1 = np.ctypeslib.as_array(vec1_ptr, shape=(size,))
+        vec2 = np.ctypeslib.as_array(vec2_ptr, shape=(size,))
+        print(vec1)
+        print(vec2)
+
+        # tuple_ptr = self.model_lib.printString()
+        # tuple_obj = ctypes.cast(tuple_ptr, ctypes.py_object).value  # Convert the tuple pointer to a Python tuple
+        # vec1_ptr, vec2_ptr = tuple_obj  # Convert the tuple elements into Python lists
+        # size = 3  # 1000 ?
+        # vec1 = [vec1_ptr[i] for i in range(size)]
+        # vec2 = [vec2_ptr[i] for i in range(size)]
+        # print(vec1)
+        # print(vec2)
         return 313
 
-    # Define a helper function to convert the result to Python lists
-    def convert_result(self, result):
-        # Extract the underlying C array from the pointer
-        array = ctypes.cast(result, ctypes.POINTER(ctypes.c_double))
+    def tmp_bind(self):
+        print("done")
+        pass
 
-        # Determine the length of the array
-        length = 0
-        while array[length] != 0.0:
-            length += 1
 
-        # Convert the array to a Python list
-        result_list = [array[i] for i in range(length)]
-
-        # Free the C array
-        # self.model_lib.FreeResult(result)
-        return result_list
-
-# def graph_calculate(expression: str, x_min: str, x_max: str):
-#     # Call the C++ function
-#     result_ptr = model_lib.GetResultForGraph(
-#         expression.encode(),
-#         float(x_min),
-#         float(x_max)
-#     )
-#
-#     # Convert the result to Python lists
-#     result_list = convert_result(result_ptr)
-#
-#     return result_list
+if __name__ == '__main__':
+    calc = Calculator()
+    calc.tmp_bind()

@@ -7,10 +7,8 @@ def index(request):  # return value and oaram type
     """Главная страница. Веб-сервис, выполняющий вычисление выражения"""
 
     data: dict = {'history': services.read_history()}  # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
-    print('catch tut')
 
     if request.method == 'POST':
-        print('catch')
         expression: str = request.POST.get('expression')
         x_value: str = request.POST.get('x_num')
 

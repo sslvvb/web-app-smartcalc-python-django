@@ -1,5 +1,6 @@
 #include "model.h"
 #include <iostream> // tmp
+#include <tuple> // for graph ?
 
 // В модель должны быть вынесены все функциональные возможности калькулятора
 // таким образом, чтобы в будущем ее можно было использовать без остальных слоев
@@ -26,10 +27,15 @@ std::pair<std::vector<double>, std::vector<double>> GetResultForGraph(const char
   return result;
 }
 
-std::vector<double> printString(const char* str, double ddd) {
-  std::cout << str << ddd << std::endl;
+//std::vector<double> printString(const char* str, double ddd) {
+//  std::cout << str << ddd << std::endl;
+//  std::vector<double> res = {1, 2, 3};
+//  return res;
+//}
+
+std::tuple<const double*, const double*> printString() {
   std::vector<double> res = {1, 2, 3};
-  return res;
+  return std::make_tuple(res.data(), res.data());
 }
 
 #ifdef __cplusplus
