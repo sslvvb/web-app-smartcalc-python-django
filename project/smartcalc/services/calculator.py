@@ -21,7 +21,7 @@ class Calculator:
         # это все бесполезно, потому что плюсы падают при невалидном вводе.
 
     def graph_calculate(self, expression: str, x_min: str, x_max: str) -> list:
-        # валидацию х мин х мах и всех условий добавить
+        # валидацию х мин х мах и всех условий добавить - js func and pop up
         # у каждой функции только одна причина для изменений
 
         number_of_steps: int = 10  # 100000
