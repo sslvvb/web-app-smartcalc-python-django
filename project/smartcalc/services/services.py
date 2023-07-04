@@ -55,6 +55,6 @@ def get_expression_result(expression: str, x_value: str) -> str:
         return f"EXCEPTION ERROR FROM services.py: {str(e)}"
 
 
-def graph_expression_result(expression: str, x_min: str, x_max: str):  # ?
+def graph_expression_result(expression: str, x_min: str, x_max: str) -> list:
     calcs = calculator.Calculator()
     return calcs.graph_calculate(expression, x_min, x_max)

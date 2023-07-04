@@ -3,7 +3,6 @@
 
 #include <clocale>
 #include <cmath>
-#include <iostream>  // tmp
 #include <list>
 #include <stack>
 #include <stdexcept>
@@ -54,7 +53,7 @@ class Model {
   double GetResult(const char* str);
   double GetResult(const char* str, double x_value);
   std::pair<std::vector<double>, std::vector<double>> GetResultForGraph(
-      const char* str, double x_min, double x_max);
+      const char* str, double x_min, double x_max, int number_of_steps);
 
  private:
   class Parser {  // композиция-наследование почему вообще это внутри ???

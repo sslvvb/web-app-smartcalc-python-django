@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from .services import services
+import json
 
 
 def index(request):  # return value and oaram type
@@ -44,15 +45,13 @@ def graph(request):
         x_min = request.POST.get('x_min')
         x_max = request.POST.get('x_max')
 
-        # result =
-        services.graph_expression_result(expression, x_min, x_max)  # get or calc ?
+        result: list = services.graph_expression_result(expression, x_min, x_max)  # get or calc ?
 
-        # print(type(result))
-        # print(result)
+        data_json = json.dumps(result)
 
-        # засунуть все в список и возвращать два смежных списка
+        data: dict = {'data': data_json}
 
-        return render(request, 'graph.html')
+        return render(request, 'graph.html', data)
     # else:
     #     return HttpResponse(status=400)  # change to /
 

@@ -1,20 +1,55 @@
-<!-- Create a new HTML template file called graph.html in your Django app's templates directory. This file will be used to display the chart. Customize the contents of this file based on the chart library you choose to use. -->
+<!--&lt;!&ndash; Create a new HTML template file called graph.html in your Django app's templates directory. This file will be used to display the chart. Customize the contents of this file based on the chart library you choose to use. &ndash;&gt;-->
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+
+<!--<head>-->
+<!--  <title>SmartCalc</title>-->
+<!--  <style>-->
+<!--    html {-->
+<!--      background-color: rgb(248, 248, 248);-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--  <p>Hello GRAPH</p>-->
+
+<!--</body>-->
+
+<!--</html>-->
+
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>SmartCalc</title>
-  <style>
-    html {
-      background-color: rgb(248, 248, 248);
-    }
-  </style>
-</head>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <body>
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 
-  <p>Hello GRAPH</p>
+<script>
+    const data = JSON.parse('{{ data }}');
+    const xValues = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
+    const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
+
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: data[0],
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: data[1]
+            }]
+        },
+        options: {
+            legend: {display: false},
+            scales: {
+                yAxes: [{ticks: {min: 100, max: 150}}],
+            }
+        }
+    });
+</script>
 
 </body>
-
 </html>
