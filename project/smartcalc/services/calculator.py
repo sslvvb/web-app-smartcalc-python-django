@@ -24,7 +24,7 @@ class Calculator:
         # валидацию х мин х мах и всех условий добавить - js func and pop up
         # у каждой функции только одна причина для изменений
 
-        number_of_steps: int = 10  # 100000
+        number_of_steps: int = 100  # 100000
 
         self.model_lib.GetResultForGraph.argtypes = [ctypes.c_char_p, ctypes.c_double, ctypes.c_double, ctypes.c_int,
                                                      ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double)]
