@@ -36,38 +36,11 @@ class Calculator:
         # это все бесполезно, потому что плюсы падают при невалидном вводе.
 
     def graph_calculate(self, expression: str, x_min: str, x_max: str):
-        верну через double* переданные как параметры !
-
+        # верну через double* переданные как параметры !
+        print('here')
+        self.model_lib.printString.argtypes = (ctypes.POINTER(ctypes.c_double), ctypes.c_size_t)
         # self.model_lib.printString.restype = ctypes.POINTER(ctypes.c_double)
-        # result_ptr = self.model_lib.printString()
-        # size = 3  # 1000 ?
-        # vec = [result_ptr[i] for i in range(size)]
-        # print(vec)
-
-        self.model_lib.printString.restype = ctypes.py_object
-        tuple_obj = self.model_lib.printString()  # Call the function to get the tuple
-        vec1_ptr, vec2_ptr = tuple_obj  # Extract the size and pointers from the tuple
-        size = 3
-        vec1 = np.ctypeslib.as_array(vec1_ptr, shape=(size,))
-        vec2 = np.ctypeslib.as_array(vec2_ptr, shape=(size,))
-        print(vec1)
-        print(vec2)
-
-        # tuple_ptr = self.model_lib.printString()
-        # tuple_obj = ctypes.cast(tuple_ptr, ctypes.py_object).value  # Convert the tuple pointer to a Python tuple
-        # vec1_ptr, vec2_ptr = tuple_obj  # Convert the tuple elements into Python lists
-        # size = 3  # 1000 ?
-        # vec1 = [vec1_ptr[i] for i in range(size)]
-        # vec2 = [vec2_ptr[i] for i in range(size)]
-        # print(vec1)
-        # print(vec2)
+        my_vector = [0.0] * 3
+        self.model_lib.printString((ctypes.c_double * len(my_vector))(*my_vector), len(my_vector))
+        print(my_vector)
         return 313
-
-    def tmp_bind(self):
-        print("done")
-        pass
-
-
-if __name__ == '__main__':
-    calc = Calculator()
-    calc.tmp_bind()
