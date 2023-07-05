@@ -31,8 +31,7 @@
             <br>
             <button class="btn-pink" type="button" onclick="graphExpression();">GRAPH</button>
             <button onclick="appendValue('x'); return false;">x</button>
-            <input type="text" class="x-input" id="x_num" name="x_num" value="{{ x_value|default:'1.0' }}"
-                   oninput="validateInput(this)">
+            <input type="number" class="x-input" id="x_num" name="x_num" value="{{ x_value|default:'1.0' }}">
             <button class="btn-pink" onclick="clearExpression(); return false;">AC</button>
             <br>
             <button onclick="appendValue('sin'); return false;">sin</button>
@@ -106,20 +105,6 @@
 </div>
 
 </body>
-
-<script>
-    function validateInput(input) {
-        input.value = input.value.replace(/[^0-9.-]|(?<=(\.|-))./g, ''); // Удалять недопустимые символы и повторяющиеся точки и минусы
-    }
-
-    // Отслеживание события вставки значения из буфера обмена
-    document.getElementById("x_num").addEventListener("paste", function (e) {
-        e.preventDefault(); // Предотвращаем вставку значения с запятыми
-        var pastedValue = e.clipboardData.getData("text/plain");
-        var newValue = pastedValue.replace(/[^0-9.-]|(?<=(\.|-))./g, '');
-        document.getElementById("x_num").value = newValue;
-    });
-</script>
 
 <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
 <script>
