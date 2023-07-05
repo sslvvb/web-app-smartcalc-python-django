@@ -7,10 +7,13 @@ function clearExpression() {
 }
 
 function evaluateExpression() {  // TODO: избавиться от одинаковых функций
-    const form = document.getElementById('calculator-form');
-    form.action = '/';
-    form.method = 'POST';
-    form.submit();
+    if (document.getElementById('expression').value != '' &&
+        document.getElementById('x_num').value != '') {
+        const form = document.getElementById('calculator-form');
+        form.action = '/';
+        form.method = 'POST';
+        form.submit();
+    }
 }
 
 function historySelect() {
@@ -28,8 +31,15 @@ function historyClean() {
 }
 
 function graphExpression() {
-    const form = document.getElementById('calculator-form');
-    form.action = 'graph/';
-    form.method = 'POST';
-    form.submit();
+    if (document.getElementById('expression').value != '' &&
+        document.getElementById('x_num').value != '' &&
+        document.getElementById('x_min').value != '' &&
+        document.getElementById('x_max').value != '' &&
+        document.getElementById('y_min').value != '' &&
+        document.getElementById('y_max').value != '') {
+        const form = document.getElementById('calculator-form');
+        form.action = 'graph/';
+        form.method = 'POST';
+        form.submit();
+    }
 }

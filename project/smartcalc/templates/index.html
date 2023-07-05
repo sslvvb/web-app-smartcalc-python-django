@@ -27,11 +27,12 @@
         <form id="calculator-form">
             {% csrf_token %}
             <input type="text" class="expression-input" id="expression" name="expression"
-                   placeholder="Enter an expression" value="{{ expression_or_result }}">
+                   placeholder="Enter an expression" value="{{ expression_or_result }}" maxlength="255">
             <br>
-            <button class="btn-pink" type="button" onclick="graphExpression()">GRAPH</button>
+            <button class="btn-pink" type="button" onclick="graphExpression();">GRAPH</button>
             <button onclick="appendValue('x'); return false;">x</button>
-            <input type="text" class="x-input" id="x_num" name="x_num" value="{{ x_value|default:'1.0' }}">
+            <input type="text" class="x-input" id="x_num" name="x_num" value="{{ x_value|default:'1.0' }}"
+                   oninput="validateInput(this)">
             <button class="btn-pink" onclick="clearExpression(); return false;">AC</button>
             <br>
             <button onclick="appendValue('sin'); return false;">sin</button>
@@ -70,21 +71,28 @@
             <button class="btn-pink" onclick="appendValue('+'); return false;">+</button>
             <br>
             <button onclick="return false;">x_min</button>
-            <input type="text" class="x-graph-input" id="x_min" name="x_min" value="{{ x_min|default:'-10' }}">
+            <input type="text" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="x_min"
+                   name="x_min" value="{{ x_min|default:'-10' }}">
             <button onclick="return false;">x_max</button>
-            <input type="text" class="x-graph-input" id="x_max" name="x_max" value="{{ x_max|default:'10' }}">
+            <input type="text" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="x_max"
+                   name="x_max"
+                   value="{{ x_max|default:'10' }}">
             <br>
             <button onclick="return false;">y_min</button>
-            <input type="text" class="x-graph-input" id="y_min" name="y_min" value="{{ y_min|default:'-10' }}">
+            <input type="text" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="y_min"
+                   name="y_min"
+                   value="{{ y_min|default:'-10' }}">
             <button onclick="return false;">y_max</button>
-            <input type="text" class="x-graph-input" id="y_max" name="y_max" value="{{ y_max|default:'10' }}">
+            <input type="text" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="y_max"
+                   name="y_max"
+                   value="{{ y_max|default:'10' }}">
 
             <div class="col-sm-4 right">
                 <h3 style="text-align: center;">History</h3>
                 <div style="text-align: center;">
                     <select class="select-container-history" name="history" style="width: 600px;">
                         {% for iter in history %}
-                            <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
+                        <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -98,5 +106,33 @@
 </div>
 
 </body>
+
+<script>
+    function validateInput(input) {
+        input.value = input.value.replace(/[^0-9.-]|(?<=(\.|-))./g, ''); // Удалять недопустимые символы и повторяющиеся точки и минусы
+    }
+
+    // Отслеживание события вставки значения из буфера обмена
+    document.getElementById("x_num").addEventListener("paste", function (e) {
+        e.preventDefault(); // Предотвращаем вставку значения с запятыми
+        var pastedValue = e.clipboardData.getData("text/plain");
+        var newValue = pastedValue.replace(/[^0-9.-]|(?<=(\.|-))./g, '');
+        document.getElementById("x_num").value = newValue;
+    });
+</script>
+
+<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $('body').on('input', '.graph-input', function () {
+        let value = this.value.replace(/[^0-9-]/g, '');
+        if (value < $(this).data('min')) {
+            this.value = $(this).data('min');
+        } else if (value > $(this).data('max')) {
+            this.value = $(this).data('max');
+        } else {
+            this.value = value;
+        }
+    });
+</script>
 
 </html>

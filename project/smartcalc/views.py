@@ -39,6 +39,7 @@ def index(request):  # return value and oaram type
 
 def graph(request):
     """Веб-сервис, выполняющий отрисовку графика выражения"""
+    # и иксы и игрики приходят по заданию
     if request.method == 'POST':
 
         expression = request.POST.get('expression')
