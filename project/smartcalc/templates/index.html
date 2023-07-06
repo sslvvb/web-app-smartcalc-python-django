@@ -31,9 +31,8 @@
             <br>
             <button class="btn-pink" type="button" onclick="graphExpression();">GRAPH</button>
             <button onclick="appendValue('x'); return false;">x</button>
-            <input type="number" class="x-input" id="x_num" name="x_num" value="{{ x_value|default:'1.0' }}"
-                   title="Three letter country code">
-            <!-- title -->
+            <input type="number" class="x-input" id="x_num" name="x_num" value="{{ x_value|default:'1.0' }}">
+            <!--title="Three letter country code">-->
             <button class="btn-pink" onclick="clearExpression(); return false;">AC</button>
             <br>
             <button onclick="appendValue('sin'); return false;">sin</button>
@@ -72,21 +71,18 @@
             <button class="btn-pink" onclick="appendValue('+'); return false;">+</button>
             <br>
             <button onclick="return false;">x_min</button>
-            <input type="text" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="x_min"
+            <input type="number" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="x_min"
                    name="x_min" value="{{ x_min|default:'-10' }}">
             <button onclick="return false;">x_max</button>
-            <input type="text" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="x_max"
-                   name="x_max"
-                   value="{{ x_max|default:'10' }}">
+            <input type="number" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="x_max"
+                   name="x_max" value="{{ x_max|default:'10' }}">
             <br>
             <button onclick="return false;">y_min</button>
-            <input type="text" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="y_min"
-                   name="y_min"
-                   value="{{ y_min|default:'-10' }}">
+            <input type="number" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="y_min"
+                   name="y_min" value="{{ y_min|default:'-10' }}">
             <button onclick="return false;">y_max</button>
-            <input type="text" class="x-graph-input" id="y_max"
-                   name="y_max"
-                   value="{{ y_max|default:'10' }}">
+            <input type="number" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="y_max"
+                   name="y_max" value="{{ y_max|default:'10' }}">
 
             <div class="col-sm-4 right">
                 <h3 style="text-align: center;">History</h3>
@@ -111,9 +107,10 @@
 <!--<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>-->
 <!--<script>-->
 <!--    $('body').on('input', '.graph-input', function () {-->
-<!--        this.value = this.value.replace(/[^\d.-]/g, '');-->
-<!--        this.value = this.value.replace(/(?<!^)-/g, '');-->
-<!--        this.value = this.value.replace(/\.{2}/g, '.');-->
+<!--        // this.value = this.value.replace(/[^\d.-]/g, '');-->
+<!--        // this.value = this.value.replace(/(?<!^)-/g, '');-->
+<!--        // this.value = this.value.replace(/\.{2}/g, '.');-->
+<!--        // this.value = this.value.replace(/(?<!^),/g, '.');-->
 <!--        if (this.value < $(this).data('min')) {-->
 <!--            this.value = $(this).data('min');-->
 <!--        } else if (this.value > $(this).data('max')) {-->

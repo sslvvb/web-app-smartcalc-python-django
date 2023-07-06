@@ -1,3 +1,8 @@
+xx-9=Error in expression; x=1.0
+((=Error in expression; x=1.0
+36-9=27.0; x=1.0
+))=Error in expression; x=1.0
+.,.x=Error in expression; x=1.00
 67=67.0; x=-8.0
 x+1=-2.0; x=-3
 2-9=-7.0; x=1.0

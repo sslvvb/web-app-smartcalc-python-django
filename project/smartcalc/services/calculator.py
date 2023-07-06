@@ -2,28 +2,24 @@
 
 import ctypes
 
-
-# Define the exception class
-class InvalidArgumentError(ValueError):
-    pass
+PATH_TO_lib = '/Users/sslvvb/Documents/S21/Projects/Python/python_calc_4/my_github_web_calc/project/smartcalc/services/model.so'
 
 
-# мб избавлюсь от класса если он не понадобится для графика ?
+# избавиться от класса ?
 class Calculator:
     def __init__(self) -> None:
-        self.model_lib = ctypes.CDLL(
-            # '/opt/goinfre/hjerilyn/projects/python_calc_4/my_github_calc_web/project/smartcalc/services/model.so')
-            '/Users/sslvvb/Documents/S21/Projects/Python/python_calc_4/my_github_web_calc/project/smartcalc/services'
-            '/model.so')  # относительный путь + мб в билд переложить ?
+        self.model_lib = ctypes.CDLL(PATH_TO_lib)
+        # '/opt/goinfre/hjerilyn/projects/python_calc_4/my_github_calc_web/project/smartcalc/services/model.so')
+        # относительный путь + мб в билд переложить ?
 
     def calculate(self, expression: str) -> str:
         self.model_lib.GetResult.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_double)]
         self.model_lib.GetResult.restype = ctypes.c_bool
-        result = ctypes.c_double()
+        result = ctypes.c_double()  # type
         if self.model_lib.GetResult(expression.encode(), ctypes.byref(result)):
             return result.value
         else:
-            return "Error in expression"
+            return None
 
     def graph_calculate(self, expression: str, x_min: str, x_max: str) -> list:
         # валидацию х мин х мах и всех условий добавить - js func and pop up
@@ -33,16 +29,17 @@ class Calculator:
 
         self.model_lib.GetResultForGraph.argtypes = [ctypes.c_char_p, ctypes.c_double, ctypes.c_double, ctypes.c_int,
                                                      ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double)]
+        self.model_lib.GetResultForGraph.restype = ctypes.c_bool
+
         x_values_buffer = (ctypes.c_double * number_of_steps)()
         y_values_buffer = (ctypes.c_double * number_of_steps)()
-
         x_buf_ptr: LP_c_double = ctypes.cast(x_values_buffer, ctypes.POINTER(ctypes.c_double))
         y_buf_ptr: LP_c_double = ctypes.cast(y_values_buffer, ctypes.POINTER(ctypes.c_double))
 
-        self.model_lib.GetResultForGraph(expression.encode(), float(x_min), float(x_max), number_of_steps, x_buf_ptr,
-                                         y_buf_ptr)
-
-        x_result_list: list = [x_buf_ptr[i] for i in range(number_of_steps)]
-        y_result_list: list = [y_buf_ptr[i] for i in range(number_of_steps)]
-
-        return [x_result_list, y_result_list]
+        if self.model_lib.GetResultForGraph(expression.encode(), float(x_min), float(x_max),
+                                            number_of_steps, x_buf_ptr, y_buf_ptr):
+            x_result_list: list = [x_buf_ptr[i] for i in range(number_of_steps)]
+            y_result_list: list = [y_buf_ptr[i] for i in range(number_of_steps)]
+            return [x_result_list, y_result_list]
+        else:
+            return None

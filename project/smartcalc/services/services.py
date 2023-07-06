@@ -44,14 +44,21 @@ def get_expression_result(expression: str, x_value: str) -> str:
 
     # сохранить в историю
 
-    # а если два х подряд ? где это обработается ?
     if "x" in expression:
         expression = expression.replace("x", x_value)
 
     calcs = calculator.Calculator()
-    return calcs.calculate(expression)
+    result = calcs.calculate(expression)
+    if result is not None:
+        return result
+    else:
+        return "Error in expression"
 
 
 def graph_expression_result(expression: str, x_min: str, x_max: str) -> list:
     calcs = calculator.Calculator()
-    return calcs.graph_calculate(expression, x_min, x_max)
+    result = calcs.graph_calculate(expression, x_min, x_max)
+    if result is not None:
+        return result
+    else:
+        return "Error in expression"
