@@ -2,7 +2,6 @@
 
 namespace s21 {
 
-// можно не использовать в моей модели
 double Model::GetResult(const char* str) {
   nodes_ = parser_.ParseNodes(str);
   ConvertToRPN();
@@ -52,7 +51,7 @@ std::list<std::pair<double, Type>> Model::Parser::ParseNodes(const char* str) {
   }
   Type last_type = GetPrevType();
   if ((last_type >= kBasicPlus && last_type <= kOpenBrckt) || brckt_flag_) {
-    throw std::invalid_argument("ERROR");
+    throw std::invalid_argument("Error in expression");
   }
   list result_list = parser_nodes_;
   parser_nodes_.clear();
@@ -63,9 +62,9 @@ void Model::Parser::GetType(const char** token) {
   if (**token >= 48 && **token <= 57) {
     NumberProcess(token);
   } else if (**token == '.') {
-    throw std::out_of_range("ERROR");
+    throw std::out_of_range("Error in expression");
   } else if (**token == 'e') {
-    throw std::out_of_range("ERROR");
+    throw std::out_of_range("Error in expression");
   } else if (**token == 'x') {
     XProcess(token);
   } else if (**token == '-' || **token == '+') {
@@ -93,7 +92,7 @@ void Model::Parser::NumberProcess(const char** token) {
   Type prev_type = GetPrevType();
   if (prev_type == kNumber || prev_type == kSymbolX ||
       prev_type == kCloseBrckt) {
-    throw std::invalid_argument("ERROR");
+    throw std::invalid_argument("Error in expression");
   }
   char* ptr_end = nullptr;
   double number = strtod(*token, &ptr_end);
@@ -106,7 +105,7 @@ void Model::Parser::XProcess(const char** token) {
   Type prev_type = GetPrevType();
   if (prev_type == kNumber || prev_type == kSymbolX ||
       prev_type == kCloseBrckt) {
-    throw std::invalid_argument("ERROR");
+    throw std::invalid_argument("Error in expression");
   }
   pair node{};
   node.second = kSymbolX;
@@ -118,7 +117,7 @@ void Model::Parser::PlusAndMinusProcess(const char** token) {
   Type prev_type = GetPrevType();
   pair node{};
   if (prev_type >= kBasicPlus && prev_type <= kDiv) {
-    throw std::invalid_argument("ERROR");
+    throw std::invalid_argument("Error in expression");
   } else if (prev_type == kZeroType || prev_type == kPower ||
              prev_type == kOpenBrckt) {
     node.second = kNumber;
@@ -138,7 +137,7 @@ void Model::Parser::OperatorProcess(const char** token) {
   pair node{};
   if (prev_type == kZeroType ||
       (prev_type >= kBasicPlus && prev_type <= kOpenBrckt)) {
-    throw std::invalid_argument("ERROR");
+    throw std::invalid_argument("Error in expression");
   }
   if (**token == '*') {
     node.second = kMul;
@@ -155,7 +154,7 @@ void Model::Parser::OpenBrcktProcess(const char** token) {
   Type prev_type = GetPrevType();
   if (prev_type == kNumber || prev_type == kSymbolX ||
       prev_type == kCloseBrckt) {
-    throw std::invalid_argument("ERROR");
+    throw std::invalid_argument("Error in expression");
   }
   pair node{};
   node.second = kOpenBrckt;
@@ -168,7 +167,7 @@ void Model::Parser::CloseBrcktProcess(const char** token) {
   Type prev_type = GetPrevType();
   if (!brckt_flag_ || prev_type == kZeroType ||
       (prev_type >= kBasicPlus && prev_type <= kPower)) {
-    throw std::invalid_argument("ERROR");
+    throw std::invalid_argument("Error in expression");
   }
   pair node{};
   node.second = kCloseBrckt;
@@ -181,7 +180,7 @@ void Model::Parser::ModProcess(const char** token) {
   Type prev_type = GetPrevType();
   if (prev_type == kZeroType ||
       (prev_type >= kBasicPlus && prev_type <= kOpenBrckt)) {
-    throw std::invalid_argument("ERROR");
+    throw std::invalid_argument("Error in expression");
   }
   pair node{};
   node.second = kMod;
@@ -276,7 +275,7 @@ void Model::Parser::CheckFooValid() {
   Type prev_type = GetPrevType();
   if (prev_type == kNumber || prev_type == kSymbolX ||
       prev_type == kCloseBrckt) {
-    throw std::invalid_argument("ERROR");
+    throw std::invalid_argument("Error in expression");
   }
 }
 

@@ -48,11 +48,8 @@ def get_expression_result(expression: str, x_value: str) -> str:
     if "x" in expression:
         expression = expression.replace("x", x_value)
 
-    try:
-        calcs = calculator.Calculator()
-        return calcs.calculate(expression)
-    except Exception as e:
-        return f"EXCEPTION ERROR FROM services.py: {str(e)}"
+    calcs = calculator.Calculator()
+    return calcs.calculate(expression)
 
 
 def graph_expression_result(expression: str, x_min: str, x_max: str) -> list:

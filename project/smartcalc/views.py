@@ -27,6 +27,7 @@ def index(request):  # return value and oaram type
 
         elif 'equal' in request.POST:
             if expression == '' or x_value == '':
+                # если пустые - запрос не отправляется
                 data['expression_or_result'] = 'Please, enter an expression'
             else:
                 result: str = services.get_expression_result(expression, x_value)

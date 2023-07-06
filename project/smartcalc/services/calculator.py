@@ -3,6 +3,11 @@
 import ctypes
 
 
+# Define the exception class
+class InvalidArgumentError(ValueError):
+    pass
+
+
 # мб избавлюсь от класса если он не понадобится для графика ?
 class Calculator:
     def __init__(self) -> None:
@@ -12,13 +17,13 @@ class Calculator:
             '/model.so')  # относительный путь + мб в билд переложить ?
 
     def calculate(self, expression: str) -> str:
-        self.model_lib.GetResult.argtypes = [ctypes.c_char_p]
-        self.model_lib.GetResult.restype = ctypes.c_double
-        try:
-            return self.model_lib.GetResult(expression.encode())
-        except Exception as e:
-            return f"EXCEPTION ERROR FROM calculator.py: {str(e)}"
-        # это все бесполезно, потому что плюсы падают при невалидном вводе.
+        self.model_lib.GetResult.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_double)]
+        self.model_lib.GetResult.restype = ctypes.c_bool
+        result = ctypes.c_double()
+        if self.model_lib.GetResult(expression.encode(), ctypes.byref(result)):
+            return result.value
+        else:
+            return "Error in expression"
 
     def graph_calculate(self, expression: str, x_min: str, x_max: str) -> list:
         # валидацию х мин х мах и всех условий добавить - js func and pop up

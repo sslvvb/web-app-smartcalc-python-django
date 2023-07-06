@@ -6,14 +6,18 @@
 extern "C" {
 #endif
 
-// надо на string заменить ?
-// как обрабатывать если возвращается ошибка ?
-double GetResult(const char* expression) {
-  s21::Model model;
-  return model.GetResult(expression);
+bool GetResult(const char* expression, double& result) {
+  try {
+    s21::Model model;
+    result = model.GetResult(expression);
+    return true;
+  } catch (const std::exception&) {
+    return false;
+  }
 }
 
 // style and checks
+// как обрабатывать если возвращается ошибка ?
 void GetResultForGraph(const char* expression, double x_min, double x_max, int number_of_steps,
                        double* x_buf_values, double* y_buf_values) {
   s21::Model model;
