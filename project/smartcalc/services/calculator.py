@@ -1,45 +1,43 @@
-"""Model class, wrapper for C++ kernel."""
+"""Model wrapper for C++ kernel."""
 
 import ctypes
+from typing import Union
 
-PATH_TO_lib = '/Users/sslvvb/Documents/S21/Projects/Python/python_calc_4/my_github_web_calc/project/smartcalc/services/model.so'
+# PATH_TO_lib = '/Users/sslvvb/Documents/S21/Projects/Python/python_calc_4/my_github_web_calc/project/smartcalc/services/model.so'
+PATH_TO_lib: str = '/opt/goinfre/hjerilyn/projects/python_calc_4/my_github_calc_web/project/smartcalc/services/model.so'
+number_of_steps: int = 100
 
 
-# избавиться от класса ?
-class Calculator:
-    def __init__(self) -> None:
-        self.model_lib = ctypes.CDLL(PATH_TO_lib)
-        # '/opt/goinfre/hjerilyn/projects/python_calc_4/my_github_calc_web/project/smartcalc/services/model.so')
-        # относительный путь + мб в билд переложить ?
+def calculate(expression: str) -> Union[str, None]:
+    model_lib = ctypes.CDLL(PATH_TO_lib)
+    model_lib.GetResult.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_double)]
+    model_lib.GetResult.restype = ctypes.c_bool
+    result: ctypes.c_double = ctypes.c_double()
+    if model_lib.GetResult(expression.encode(), ctypes.byref(result)):
+        return str(result.value)
+    else:
+        return None
 
-    def calculate(self, expression: str) -> str:
-        self.model_lib.GetResult.argtypes = [ctypes.c_char_p, ctypes.POINTER(ctypes.c_double)]
-        self.model_lib.GetResult.restype = ctypes.c_bool
-        result = ctypes.c_double()  # type
-        if self.model_lib.GetResult(expression.encode(), ctypes.byref(result)):
-            return result.value
-        else:
-            return None
 
-    def graph_calculate(self, expression: str, x_min: str, x_max: str) -> list:
-        # валидацию х мин х мах и всех условий добавить - js func and pop up
-        # у каждой функции только одна причина для изменений
+def graph_calculate(expression: str, x_min: str, x_max: str) -> Union[list, None]:
+    model_lib = ctypes.CDLL(PATH_TO_lib)
+    model_lib.GetResultForGraph.argtypes = [ctypes.c_char_p, ctypes.c_double, ctypes.c_double, ctypes.c_int,
+                                            ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double)]
+    model_lib.GetResultForGraph.restype = ctypes.c_bool
 
-        number_of_steps: int = 100  # 100000
+    x_values_buffer = (ctypes.c_double * number_of_steps)()
+    y_values_buffer = (ctypes.c_double * number_of_steps)()
+    x_buf_ptr = ctypes.cast(x_values_buffer, ctypes.POINTER(ctypes.c_double))
+    y_buf_ptr = ctypes.cast(y_values_buffer, ctypes.POINTER(ctypes.c_double))
 
-        self.model_lib.GetResultForGraph.argtypes = [ctypes.c_char_p, ctypes.c_double, ctypes.c_double, ctypes.c_int,
-                                                     ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double)]
-        self.model_lib.GetResultForGraph.restype = ctypes.c_bool
+    if model_lib.GetResultForGraph(expression.encode(), float(x_min), float(x_max),
+                                   number_of_steps, x_buf_ptr, y_buf_ptr):
+        x_result_list: list = [x_buf_ptr[i] for i in range(number_of_steps)]
+        y_result_list: list = [y_buf_ptr[i] for i in range(number_of_steps)]
+        return [x_result_list, y_result_list]
+    else:
+        return None
 
-        x_values_buffer = (ctypes.c_double * number_of_steps)()
-        y_values_buffer = (ctypes.c_double * number_of_steps)()
-        x_buf_ptr: LP_c_double = ctypes.cast(x_values_buffer, ctypes.POINTER(ctypes.c_double))
-        y_buf_ptr: LP_c_double = ctypes.cast(y_values_buffer, ctypes.POINTER(ctypes.c_double))
-
-        if self.model_lib.GetResultForGraph(expression.encode(), float(x_min), float(x_max),
-                                            number_of_steps, x_buf_ptr, y_buf_ptr):
-            x_result_list: list = [x_buf_ptr[i] for i in range(number_of_steps)]
-            y_result_list: list = [y_buf_ptr[i] for i in range(number_of_steps)]
-            return [x_result_list, y_result_list]
-        else:
-            return None
+# doctype
+# относительный путь
+# стиль для констант

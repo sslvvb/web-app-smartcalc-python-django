@@ -29,46 +29,46 @@
             <input type="text" class="expression-input" id="expression" name="expression"
                    placeholder="Enter an expression" value="{{ expression_or_result }}" maxlength="255">
             <br>
-            <button class="btn-pink" type="button" onclick="graphExpression();">GRAPH</button>
-            <button onclick="appendValue('x'); return false;">x</button>
+            <button class="btn-pink" type="button" onclick="graphExpression(event);">GRAPH</button>
+            <button onclick="appendValue('x', event);">x</button>
             <input type="number" class="x-input" id="x_num" name="x_num" value="{{ x_value|default:'1.0' }}">
             <!--title="Three letter country code">-->
-            <button class="btn-pink" onclick="clearExpression(); return false;">AC</button>
+            <button class="btn-pink" onclick="clearExpression(event);">AC</button>
             <br>
-            <button onclick="appendValue('sin'); return false;">sin</button>
-            <button onclick="appendValue('asin'); return false;">asin</button>
-            <button onclick="appendValue('e'); return false;">e</button>
-            <button onclick="appendValue('('); return false;">(</button>
-            <button onclick="appendValue(')'); return false;">)</button>
-            <button class="btn-pink" onclick="appendValue('^'); return false;">^</button>
+            <button onclick="appendValue('sin', event);">sin</button>
+            <button onclick="appendValue('asin', event);">asin</button>
+            <button onclick="appendValue('e', event);">e</button>
+            <button onclick="appendValue('(', event);">(</button>
+            <button onclick="appendValue(')', event);">)</button>
+            <button class="btn-pink" onclick="appendValue('^', event);">^</button>
             <br>
-            <button onclick="appendValue('cos'); return false;">cos</button>
-            <button onclick="appendValue('acos'); return false;">acos</button>
-            <button onclick="appendValue('1'); return false;">1</button>
-            <button onclick="appendValue('2'); return false;">2</button>
-            <button onclick="appendValue('3'); return false;">3</button>
-            <button class="btn-pink" onclick="appendValue('/'); return false;">/</button>
+            <button onclick="appendValue('cos', event);">cos</button>
+            <button onclick="appendValue('acos', event);">acos</button>
+            <button onclick="appendValue('1', event);">1</button>
+            <button onclick="appendValue('2', event);">2</button>
+            <button onclick="appendValue('3', event);">3</button>
+            <button class="btn-pink" onclick="appendValue('/', event);">/</button>
             <br>
-            <button onclick="appendValue('tan'); return false;">tan</button>
-            <button onclick="appendValue('atan'); return false;">atan</button>
-            <button onclick="appendValue('4'); return false;">4</button>
-            <button onclick="appendValue('5'); return false;">5</button>
-            <button onclick="appendValue('6'); return false;">6</button>
-            <button class="btn-pink" onclick="appendValue('*'); return false;">*</button>
+            <button onclick="appendValue('tan', event);">tan</button>
+            <button onclick="appendValue('atan', event);">atan</button>
+            <button onclick="appendValue('4', event);">4</button>
+            <button onclick="appendValue('5', event);">5</button>
+            <button onclick="appendValue('6', event);">6</button>
+            <button class="btn-pink" onclick="appendValue('*', event);">*</button>
             <br>
-            <button onclick="appendValue('0'); return false;">mod</button>
-            <button onclick="appendValue('ln'); return false;">ln</button>
-            <button onclick="appendValue('7'); return false;">7</button>
-            <button onclick="appendValue('8'); return false;">8</button>
-            <button onclick="appendValue('9'); return false;">9</button>
-            <button class="btn-pink" onclick="appendValue('-'); return false;">-</button>
+            <button onclick="appendValue('0', event);">mod</button>
+            <button onclick="appendValue('ln', event);">ln</button>
+            <button onclick="appendValue('7', event);">7</button>
+            <button onclick="appendValue('8', event);">8</button>
+            <button onclick="appendValue('9', event);">9</button>
+            <button class="btn-pink" onclick="appendValue('-', event);">-</button>
             <br>
-            <button onclick="appendValue('sqrt'); return false;">sqrt</button>
-            <button onclick="appendValue('log'); return false;">log</button>
-            <button onclick="appendValue('.'); return false;">.</button>
-            <button onclick="appendValue('0'); return false;">0</button>
-            <button name="equal" onclick="evaluateExpression()">=</button>
-            <button class="btn-pink" onclick="appendValue('+'); return false;">+</button>
+            <button onclick="appendValue('sqrt', event);">sqrt</button>
+            <button onclick="appendValue('log', event);">log</button>
+            <button onclick="appendValue('.', event);">.</button>
+            <button onclick="appendValue('0', event);">0</button>
+            <button name="equal" onclick="evaluateExpression(event)">=</button>
+            <button class="btn-pink" onclick="appendValue('+', event);">+</button>
             <br>
             <button onclick="return false;">x_min</button>
             <input type="number" data-min="-1000000" data-max="1000000" class="x-graph-input graph-input" id="x_min"
@@ -89,7 +89,7 @@
                 <div style="text-align: center;">
                     <select class="select-container-history" name="history" style="width: 600px;">
                         {% for iter in history %}
-                        <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
+                            <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
                         {% endfor %}
                     </select>
                 </div>

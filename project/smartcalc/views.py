@@ -4,7 +4,7 @@ from .services import services
 import json
 
 
-def index(request):  # return value and oaram type
+def index(request):  # return value and param type
     """Главная страница. Веб-сервис, выполняющий вычисление выражения"""
 
     data: dict = {'history': services.read_history()}  # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
@@ -26,26 +26,23 @@ def index(request):  # return value and oaram type
                 data['history'] = services.write_history(history_item)
 
         elif 'equal' in request.POST:
-            if expression == '' or x_value == '':
-                # если пустые - запрос не отправляется
-                data['expression_or_result'] = 'Please, enter an expression'
-            else:
-                result: str = services.get_expression_result(expression, x_value)
-                # только если без ошибок
+            result: str = services.get_expression_result(expression, x_value)
+            if result != "Error in expression":
                 data['history'] = services.write_history(f'{expression}={result}; x={x_value}')
-                data['expression_or_result'] = result
+            data['expression_or_result'] = result
 
-    return render(request, "index.html", data)  # могу возвращать не словарик, а объект класса - см метанит
+    return render(request, "index.html", data)
 
 
+# TODO: график починить и отрисовать красиво
 def graph(request):
     """Веб-сервис, выполняющий отрисовку графика выражения"""
-    # и иксы и игрики приходят по заданию
     if request.method == 'POST':
-
         expression = request.POST.get('expression')
         x_min = request.POST.get('x_min')
         x_max = request.POST.get('x_max')
+        y_min = request.POST.get('y_min')
+        y_max = request.POST.get('y_max')
 
         result: list = services.graph_expression_result(expression, x_min, x_max)  # get or calc ?
 
