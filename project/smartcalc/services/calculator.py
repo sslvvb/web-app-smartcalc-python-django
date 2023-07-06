@@ -38,6 +38,6 @@ def graph_calculate(expression: str, x_min: str, x_max: str) -> Union[list, None
     else:
         return None
 
-# doctype
+# docstring
 # относительный путь
 # стиль для констант

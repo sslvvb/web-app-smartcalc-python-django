@@ -35,12 +35,8 @@ def get_expression_result(expression: str, x_value: str) -> str:
     """вызывает функцию
     Вычисляет выражение. Возвращает строку - результат вычислений или текст ошибки.
     параметры - выражение, значениие х"""
-
-    # сохранить в историю
-
     if "x" in expression:
         expression = expression.replace("x", x_value)
-
     result = calculator.calculate(expression)
     if result is not None:
         return result
@@ -53,4 +49,4 @@ def graph_expression_result(expression: str, x_min: str, x_max: str) -> list:
     if result is not None:
         return result
     else:
-        return "Error in expression"  # how handle ?
+        return "Error in expression"  # how handle it ?
