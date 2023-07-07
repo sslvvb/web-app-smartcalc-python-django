@@ -16,13 +16,13 @@ bool GetResultForGraph(const char* expression, double x_min, double x_max,
   std::vector<double> x_buf, y_buf;
   bool result = model.GetResultForGraph(expression, x_min, x_max,
                                         number_of_steps, x_buf, y_buf);
-  if (result) {
+  if (!result) {
+    return false;
+  } else {
     for (size_t i = 0; i < number_of_steps; i++) {
       x_buf_values[i] = x_buf[i];
       y_buf_values[i] = y_buf[i];
     }
-  } else {
-    return false;
   }
   return true;
 }
