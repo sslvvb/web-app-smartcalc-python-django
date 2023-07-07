@@ -2,35 +2,49 @@
 
 namespace s21 {
 
-double Model::GetResult(const char* str) {
-  nodes_ = parser_.ParseNodes(str);
-  ConvertToRPN();
-  double result = Calculate(&nodes_in_rpn_);
-  return result;
-}
-
-double Model::GetResult(const char* str, double x_value) {
-  nodes_ = parser_.ParseNodes(str);
-  ConvertToRPN();
-  XToNumberReplace(&nodes_in_rpn_, x_value);
-  double result = Calculate(&nodes_in_rpn_);
-  return result;
-}
-
-std::pair<std::vector<double>, std::vector<double>> Model::GetResultForGraph(
-    const char* str, double x_min, double x_max, int number_of_steps) {
-  nodes_ = parser_.ParseNodes(str);
-  ConvertToRPN();
-  std::vector<double> scope_x;
-  std::vector<double> scope_y;
-  double step = (x_max - x_min) / number_of_steps;
-  for (double x = x_min; x <= (x_max + step); x += step) {
-    list tmp = nodes_in_rpn_;
-    XToNumberReplace(&tmp, x);
-    scope_x.push_back(x);
-    scope_y.push_back(Calculate(&tmp));
+bool Model::GetResult(const char* str, double& result_buf) {
+  try {
+    nodes_ = parser_.ParseNodes(str);
+    ConvertToRPN();
+    result_buf = Calculate(&nodes_in_rpn_);
+  } catch (const std::exception&) {
+    return false;
   }
-  return std::make_pair(scope_x, scope_y);
+  return true;
+}
+
+bool Model::GetResult(const char* str, double x_value, double& result_buf) {
+  try {
+    nodes_ = parser_.ParseNodes(str);
+    ConvertToRPN();
+    XToNumberReplace(&nodes_in_rpn_, x_value);
+    result_buf = Calculate(&nodes_in_rpn_);
+  } catch (const std::exception&) {
+    return false;
+  }
+  return true;
+}
+
+bool Model::GetResultForGraph(const char* str, double x_min, double x_max,
+                              int number_of_steps,
+                              std::vector<double>& x_results_buf,
+                              std::vector<double>& y_results_buf) {
+  try {
+    x_results_buf.clear();
+    y_results_buf.clear();
+    nodes_ = parser_.ParseNodes(str);
+    ConvertToRPN();
+    double step = (x_max - x_min) / number_of_steps;
+    for (double x = x_min; x <= (x_max + step); x += step) {
+      list tmp = nodes_in_rpn_;
+      XToNumberReplace(&tmp, x);
+      x_results_buf.push_back(x);
+      y_results_buf.push_back(Calculate(&tmp));
+    }
+  } catch (const std::exception&) {
+    return false;
+  }
+  return true;
 }
 
 void Model::XToNumberReplace(list* list_nodes, double x_value) {
@@ -42,240 +56,6 @@ void Model::XToNumberReplace(list* list_nodes, double x_value) {
       it = list_nodes->erase(it);
       --it;
     }
-  }
-}
-
-std::list<std::pair<double, Type>> Model::Parser::ParseNodes(const char* str) {
-  while (*str) {
-    GetType(&str);
-  }
-  Type last_type = GetPrevType();
-  if ((last_type >= kBasicPlus && last_type <= kOpenBrckt) || brckt_flag_) {
-    throw std::invalid_argument("Error in expression");
-  }
-  list result_list = parser_nodes_;
-  parser_nodes_.clear();
-  return result_list;
-}
-
-void Model::Parser::GetType(const char** token) {
-  if (**token >= 48 && **token <= 57) {
-    NumberProcess(token);
-  } else if (**token == '.') {
-    throw std::out_of_range("Error in expression");
-  } else if (**token == 'e') {
-    throw std::out_of_range("Error in expression");
-  } else if (**token == 'x') {
-    XProcess(token);
-  } else if (**token == '-' || **token == '+') {
-    PlusAndMinusProcess(token);
-  } else if (**token == '*' || **token == '/' || **token == '^') {
-    OperatorProcess(token);
-  } else if (**token == '(') {
-    OpenBrcktProcess(token);
-  } else if (**token == ')') {
-    CloseBrcktProcess(token);
-  } else if (**token == 'm') {
-    ModProcess(token);
-  } else if (**token == 'l') {
-    LnLogProcess(token);
-  } else if (**token == 's') {
-    SqrtSinProcess(token);
-  } else if (**token == 'a') {
-    AProcess(token);
-  } else if (**token == 'c' || **token == 't') {
-    CosTanProcess(token);
-  }
-}
-
-void Model::Parser::NumberProcess(const char** token) {
-  Type prev_type = GetPrevType();
-  if (prev_type == kNumber || prev_type == kSymbolX ||
-      prev_type == kCloseBrckt) {
-    throw std::invalid_argument("Error in expression");
-  }
-  char* ptr_end = nullptr;
-  double number = strtod(*token, &ptr_end);
-  pair node(number, kNumber);
-  parser_nodes_.push_back(node);
-  *token = ptr_end;
-}
-
-void Model::Parser::XProcess(const char** token) {
-  Type prev_type = GetPrevType();
-  if (prev_type == kNumber || prev_type == kSymbolX ||
-      prev_type == kCloseBrckt) {
-    throw std::invalid_argument("Error in expression");
-  }
-  pair node{};
-  node.second = kSymbolX;
-  parser_nodes_.push_back(node);
-  *token += 1;
-}
-
-void Model::Parser::PlusAndMinusProcess(const char** token) {
-  Type prev_type = GetPrevType();
-  pair node{};
-  if (prev_type >= kBasicPlus && prev_type <= kDiv) {
-    throw std::invalid_argument("Error in expression");
-  } else if (prev_type == kZeroType || prev_type == kPower ||
-             prev_type == kOpenBrckt) {
-    node.second = kNumber;
-    parser_nodes_.push_back(node);
-  }
-  if (**token == '+') {
-    node.second = kBasicPlus;
-  } else {
-    node.second = kBasicMinus;
-  }
-  parser_nodes_.push_back(node);
-  *token += 1;
-}
-
-void Model::Parser::OperatorProcess(const char** token) {
-  Type prev_type = GetPrevType();
-  pair node{};
-  if (prev_type == kZeroType ||
-      (prev_type >= kBasicPlus && prev_type <= kOpenBrckt)) {
-    throw std::invalid_argument("Error in expression");
-  }
-  if (**token == '*') {
-    node.second = kMul;
-  } else if (**token == '/') {
-    node.second = kDiv;
-  } else {
-    node.second = kPower;
-  }
-  parser_nodes_.push_back(node);
-  *token += 1;
-}
-
-void Model::Parser::OpenBrcktProcess(const char** token) {
-  Type prev_type = GetPrevType();
-  if (prev_type == kNumber || prev_type == kSymbolX ||
-      prev_type == kCloseBrckt) {
-    throw std::invalid_argument("Error in expression");
-  }
-  pair node{};
-  node.second = kOpenBrckt;
-  parser_nodes_.push_back(node);
-  brckt_flag_ += 1;
-  *token += 1;
-}
-
-void Model::Parser::CloseBrcktProcess(const char** token) {
-  Type prev_type = GetPrevType();
-  if (!brckt_flag_ || prev_type == kZeroType ||
-      (prev_type >= kBasicPlus && prev_type <= kPower)) {
-    throw std::invalid_argument("Error in expression");
-  }
-  pair node{};
-  node.second = kCloseBrckt;
-  parser_nodes_.push_back(node);
-  brckt_flag_ -= 1;
-  *token += 1;
-}
-
-void Model::Parser::ModProcess(const char** token) {
-  Type prev_type = GetPrevType();
-  if (prev_type == kZeroType ||
-      (prev_type >= kBasicPlus && prev_type <= kOpenBrckt)) {
-    throw std::invalid_argument("Error in expression");
-  }
-  pair node{};
-  node.second = kMod;
-  parser_nodes_.push_back(node);
-  node.second = kOpenBrckt;
-  parser_nodes_.push_back(node);
-  *token += 4;
-  brckt_flag_ += 1;
-}
-
-void Model::Parser::LnLogProcess(const char** token) {
-  CheckFooValid();
-  *token += 1;
-  pair node{};
-  if (**token == 'n') {
-    node.second = kLn;
-    parser_nodes_.push_back(node);
-    *token += 2;
-  } else {
-    node.second = kLog;
-    parser_nodes_.push_back(node);
-    *token += 3;
-  }
-  node.second = kOpenBrckt;
-  parser_nodes_.push_back(node);
-  brckt_flag_ += 1;
-}
-
-void Model::Parser::SqrtSinProcess(const char** token) {
-  CheckFooValid();
-  *token += 1;
-  pair node{};
-  if (**token == 'q') {
-    node.second = kSqrt;
-    parser_nodes_.push_back(node);
-    *token += 4;
-  } else {
-    node.second = kSin;
-    parser_nodes_.push_back(node);
-    *token += 3;
-  }
-  node.second = kOpenBrckt;
-  parser_nodes_.push_back(node);
-  brckt_flag_ += 1;
-}
-
-void Model::Parser::AProcess(const char** token) {
-  CheckFooValid();
-  *token += 1;
-  pair node{};
-  if (**token == 's') {
-    node.second = kAsin;
-    parser_nodes_.push_back(node);
-  } else if (**token == 'c') {
-    node.second = kAcos;
-    parser_nodes_.push_back(node);
-  } else {
-    node.second = kAtan;
-    parser_nodes_.push_back(node);
-  }
-  node.second = kOpenBrckt;
-  parser_nodes_.push_back(node);
-  *token += 4;
-  brckt_flag_ += 1;
-}
-
-void Model::Parser::CosTanProcess(const char** token) {
-  CheckFooValid();
-  pair node{};
-  if (**token == 'c') {
-    node.second = kCos;
-    parser_nodes_.push_back(node);
-  } else {
-    node.second = kTan;
-    parser_nodes_.push_back(node);
-  }
-  node.second = kOpenBrckt;
-  parser_nodes_.push_back(node);
-  *token += 4;
-  brckt_flag_ += 1;
-}
-
-Type Model::Parser::GetPrevType() {
-  Type result = kZeroType;
-  if (parser_nodes_.size()) {
-    result = parser_nodes_.back().second;
-  }
-  return result;
-}
-
-void Model::Parser::CheckFooValid() {
-  Type prev_type = GetPrevType();
-  if (prev_type == kNumber || prev_type == kSymbolX ||
-      prev_type == kCloseBrckt) {
-    throw std::invalid_argument("Error in expression");
   }
 }
 
