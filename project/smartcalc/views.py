@@ -45,11 +45,15 @@ def graph(request):
         y_max = request.POST.get('y_max')
 
         result: list = services.graph_expression_result(expression, x_min, x_max)  # get or calc ?
+        xy_values: list = [{'x': x, 'y': y} for x, y in zip(result[0], result[1])]
 
-        data_json = json.dumps(result)
-
-        data: dict = {'data': data_json}
-
+        data: dict = {'expression': expression,
+                      'xy_values': xy_values,
+                      'x_min': float(x_min),
+                      'x_max': float(x_max),
+                      'y_min': float(y_min),
+                      'y_max': float(y_max)
+                      }
         return render(request, 'graph.html', data)
     # else:
     #     return HttpResponse(status=400)  # change to /

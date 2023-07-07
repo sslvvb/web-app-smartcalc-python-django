@@ -10,6 +10,7 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
@@ -18,34 +19,51 @@
             width: 900px;
             height: 500px;
         }
+
+        h1 {
+            color: rgba(64, 65, 1);
+        }
     </style>
 </head>
 <body>
+
+<div class="tabs-container">
+    <form action="" method="GET">
+        {#{% csrf_token %}#}
+        <input type="submit" value="Calculator" class="tab-form">
+    </form>
+    <form action="/about">
+        {#{% csrf_token %}#}
+        <input type="submit" value="About" class="tab-form">
+    </form>
+</div>
+
+<h1>{{ expression }}</h1>
+
 <div class="chart-container">
     <canvas id="myChart"></canvas>
 </div>
 <script>
-    const data = JSON.parse('{{ data }}');
+    const xyValues = {{ xy_values|safe }};
     new Chart("myChart", {
-        type: "line",
+        type: "scatter",
         data: {
-            labels: data[0],
             datasets: [{
-                fill: false,
-                lineTension: 0,
-                backgroundColor: "rgba(0,0,255,1.0)",
-                borderColor: "rgba(0,0,255,0.1)",
-                data: data[1]
+                pointRadius: 2,
+                backgroundColor: "rgba(141,108,159,1)",
+                borderColor: "rgba(192,174,202,1)",
+                data: xyValues
             }]
         },
         options: {
             legend: {display: false},
             scales: {
-                yAxes: [{ticks: {min: -100, max: 2}}],
-            },
-            maintainAspectRatio: false
+                xAxes: [{ticks: {min: {{x_min}}, max: {{x_max}}}}],
+                yAxes: [{ticks: {min: {{y_min}}, max: {{y_max}}}}],
+            }
         }
     });
 </script>
+
 </body>
 </html>
