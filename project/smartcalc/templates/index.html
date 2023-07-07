@@ -28,6 +28,7 @@
             {% csrf_token %}
             <input type="text" class="expression-input" id="expression" name="expression"
                    placeholder="Enter an expression" value="{{ expression_or_result }}" maxlength="255">
+            <!--readonly-->
             <br>
             <button class="btn-pink" type="button" onclick="graphExpression(event);">GRAPH</button>
             <button onclick="appendValue('x', event);">x</button>
@@ -89,7 +90,7 @@
                 <div style="text-align: center;">
                     <select class="select-container-history" name="history" style="width: 600px;">
                         {% for iter in history %}
-                            <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
+                        <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -104,19 +105,15 @@
 
 </body>
 
-<!--<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>-->
-<!--<script>-->
-<!--    $('body').on('input', '.graph-input', function () {-->
-<!--        // this.value = this.value.replace(/[^\d.-]/g, '');-->
-<!--        // this.value = this.value.replace(/(?<!^)-/g, '');-->
-<!--        // this.value = this.value.replace(/\.{2}/g, '.');-->
-<!--        // this.value = this.value.replace(/(?<!^),/g, '.');-->
-<!--        if (this.value < $(this).data('min')) {-->
-<!--            this.value = $(this).data('min');-->
-<!--        } else if (this.value > $(this).data('max')) {-->
-<!--            this.value = $(this).data('max');-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
+<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $('body').on('input', '.graph-input', function () {
+        if (this.value < $(this).data('min')) {
+            this.value = $(this).data('min');
+        } else if (this.value > $(this).data('max')) {
+            this.value = $(this).data('max');
+        }
+    });
+</script>
 
 </html>
