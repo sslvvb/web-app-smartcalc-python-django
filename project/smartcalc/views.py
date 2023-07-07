@@ -9,6 +9,8 @@ def index(request):  # return value and param type
 
     data: dict = {'history': services.read_history()}  # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
 
+    services.read_config()  # TODO
+
     if request.method == 'POST':
         expression: str = request.POST.get('expression')
         x_value: str = request.POST.get('x_num')

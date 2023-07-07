@@ -2,6 +2,7 @@
 
 from . import calculator
 from . import history
+from . import configs
 
 
 def read_history() -> list:
@@ -50,3 +51,8 @@ def graph_expression_result(expression: str, x_min: str, x_max: str) -> list:
         return result
     else:
         return "Error in expression"  # how handle it ?
+
+
+def read_config():
+    configs.read_config()
+    # pass
