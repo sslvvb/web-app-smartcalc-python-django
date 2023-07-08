@@ -35,11 +35,11 @@ function graphExpression(event) {
     }
 }
 
-function historySelect() {
+function historySelect() {  // TODO: могу удалить
     indexPostSubmit();
 }
 
-function historyClean() {
+function historyClean() {  // TODO: могу удалить
     indexPostSubmit();
 }
 

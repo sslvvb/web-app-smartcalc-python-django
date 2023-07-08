@@ -7,11 +7,13 @@ import json
 def index(request):  # return value and param type
     """Главная страница. Веб-сервис, выполняющий вычисление выражения"""
 
-    data: dict = {'history': services.read_history()}  # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
+    config: dict = services.read_config()
 
-    services.read_config()  # TODO
+    data: dict = {'history': services.read_history(),
+                  'background': config['background']}  # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
 
     if request.method == 'POST':
+        print('post')
         expression: str = request.POST.get('expression')
         x_value: str = request.POST.get('x_num')
 
@@ -33,10 +35,15 @@ def index(request):  # return value and param type
                 data['history'] = services.write_history(f'{expression}={result}; x={x_value}')
             data['expression_or_result'] = result
 
+        elif 'select-background' in request.POST:
+            print('background')
+            print(request.POST.get('background'))
+            # write config
+            pass
+
     return render(request, "index.html", data)
 
 
-# TODO: график починить и отрисовать красиво
 def graph(request):
     """Веб-сервис, выполняющий отрисовку графика выражения"""
     if request.method == 'POST':

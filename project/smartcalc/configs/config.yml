@@ -1,6 +1,5 @@
----
-theme: light
-main_color: pink
 font_size: 14
 history:
   file: smartcalc/data/history.txt
+main_color: pink
+background: light

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html>
+<html {% if background %}style="--background-color: {% if background == 'light' %}rgb(248, 248, 248){% else %}rgb(59, 60, 65){% endif %}"{% endif %}>
 
 <head>
     <title>SmartCalc</title>
@@ -90,7 +90,7 @@
                 <div style="text-align: center;">
                     <select class="select-container-history" name="history" style="width: 600px;">
                         {% for iter in history %}
-                        <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
+                            <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -99,6 +99,20 @@
                     <button name="clean_history" onclick="historyClean();" style="margin: 5px 2px;">Clean</button>
                 </div>
             </div>
+
+
+            <h3>Configuration</h3>
+            <label>
+                <input type="radio" name="background" value="light" {% if background == 'light' %}checked{% endif %}/>
+                Light
+            </label>
+            <label>
+                <input type="radio" name="background" value="dark" {% if background == 'dark' %}checked{% endif %}/>
+                Dark
+            </label>
+
+            <button name="select-background" onclick="indexPostSubmit();">Select Background</button>
+
         </form>
     </div>
 </div>
