@@ -4,8 +4,6 @@ from . import calculator
 from . import history
 from . import configs
 
-import yaml
-
 
 def read_history() -> list:
     """Вызывает функцию чтения истории введенных выражений модуля history
@@ -58,12 +56,9 @@ def graph_expression_result(expression: str, x_min: str, x_max: str) -> list:
 def read_config() -> dict:
     return configs.read_config()
 
-    # theme = config['theme']
-    # print(theme)
-    #
-    # config['theme'] = 'light'
-    # print(config['theme'])
-    #
-    # with open('smartcalc/configs/config.yml', 'w') as file:
-    #     yaml.safe_dump(config, file)
-    # pass
+
+def write_background_to_config(background: str) -> dict:
+    return configs.write_background_to_config(background)
+
+def write_main_color_to_config(main_color: str) -> dict:
+    pass

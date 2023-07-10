@@ -1,7 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from .services import services
-import json
 
 
 def index(request):  # return value and param type
@@ -9,11 +8,13 @@ def index(request):  # return value and param type
 
     config: dict = services.read_config()
 
+    # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
     data: dict = {'history': services.read_history(),
-                  'background': config['background']}  # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
+                  'background': config['background'],
+                  'font_size': config['font_size'],
+                  'main_color': config['main_color']}
 
     if request.method == 'POST':
-        print('post')
         expression: str = request.POST.get('expression')
         x_value: str = request.POST.get('x_num')
 
@@ -36,9 +37,15 @@ def index(request):  # return value and param type
             data['expression_or_result'] = result
 
         elif 'select-background' in request.POST:
-            print('background')
-            print(request.POST.get('background'))
-            # write config
+            config = services.write_background_to_config(request.POST.get('background'))
+            data['background'] = config['background']
+
+        elif 'select-main-color' in request.POST:
+            config = services.write_main_color_to_config(request.POST.get('main-color'))
+            # data['main-color'] = config['main-color']
+            pass
+
+        elif 'select-font-size' in request.POST:
             pass
 
     return render(request, "index.html", data)
