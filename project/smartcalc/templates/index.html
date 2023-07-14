@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 {% load static %}
-<html {% if background %}style="--background-color: {% if background == 'light' %}rgb(248, 248, 248){% else %}rgb(59, 60, 65){% endif %}" {% endif %}>
+
+
+<html style="--background-color: {% if background == 'light' %}rgb(248, 248, 248){% else %}rgb(59, 60, 65){% endif %};
+        --accent-color: {% if main_color == 'pink' %}rgb(237, 120, 153){% else %}rgb(114, 202, 175){% endif %};
+        --font-size: {% if font_size == '16' %}16px{% else %}14px{% endif %};">
 
 <head>
     <title>SmartCalc</title>
@@ -90,7 +94,7 @@
                 <div style="text-align: center;">
                     <select class="select-container-history" name="history" style="width: 600px;">
                         {% for iter in history %}
-                        <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
+                            <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -101,43 +105,44 @@
             </div>
 
 
-            <h3>Configuration</h3>
+            <h3 style="text-align: center;">Configuration</h3>
+            <div style="text-align: center;">
+                <label>
+                    <input type="radio" name="background" value="light"
+                           {% if background == 'light' %}checked{% endif %}/>
+                    Light
+                </label>
+                <label>
+                    <input type="radio" name="background" value="dark" {% if background == 'dark' %}checked{% endif %}/>
+                    Dark
+                </label>
+                <button name="select-background" onclick="indexPostSubmit();">Select Background</button>
 
-            <label>
-                <input type="radio" name="background" value="light" {% if background == 'light' %}checked{% endif %}/>
-                Light
-            </label>
-            <label>
-                <input type="radio" name="background" value="dark" {% if background == 'dark' %}checked{% endif %}/>
-                Dark
-            </label>
-            <button name="select-background" onclick="indexPostSubmit();">Select Background</button>
+                <br>
 
-            <br>
+                <label>
+                    <input type="radio" name="main_color" value="pink" {% if main_color == 'pink' %}checked{% endif %}/>
+                    Pink
+                </label>
+                <label>
+                    <input type="radio" name="main_color" value="green"
+                           {% if main_color == 'green' %}checked{% endif %}/>
+                    Green
+                </label>
+                <button name="select-main-color" onclick="indexPostSubmit();">Select Main Color</button>
 
-            <label>
-                <input type="radio" name="main-color" value="pink" {% if main_color == 'pink' %}checked{% endif %}/>
-                Pink
-            </label>
-            <label>
-                <input type="radio" name="main-color" value="violet" {% if main_color == 'violet' %}checked{% endif %}/>
-                Violet
-            </label>
-            <button name="select-main-color" onclick="indexPostSubmit();">Select Main Color</button>
+                <br>
 
-            <br>
-
-            <label>
-                <input type="radio" name="font-size" value="14" {% if font_size == '14' %}checked{% endif %}/>
-                14
-            </label>
-            <label>
-                <input type="radio" name="font-size" value="16" {% if font_size == '16' %}checked{% endif %}/>
-                16
-            </label>
-            <button name="select-font-size" onclick="indexPostSubmit();">Select Font Size</button>
-
-
+                <label>
+                    <input type="radio" name="font_size" value="14" {% if font_size == '14' %}checked{% endif %}/>
+                    14
+                </label>
+                <label>
+                    <input type="radio" name="font_size" value="16" {% if font_size == '16' %}checked{% endif %}/>
+                    16
+                </label>
+                <button name="select-font-size" onclick="indexPostSubmit();">Select Font Size</button>
+            </div>
         </form>
     </div>
 </div>

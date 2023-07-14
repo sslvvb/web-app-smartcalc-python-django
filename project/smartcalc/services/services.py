@@ -58,7 +58,12 @@ def read_config() -> dict:
 
 
 def write_background_to_config(background: str) -> dict:
-    return configs.write_background_to_config(background)
+    return configs.update_config('background', background)
+
 
 def write_main_color_to_config(main_color: str) -> dict:
-    pass
+    return configs.update_config('main_color', main_color)
+
+
+def write_font_size_to_config(font_size: str) -> dict:
+    return configs.update_config('font_size', font_size)

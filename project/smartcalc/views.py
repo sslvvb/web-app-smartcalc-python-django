@@ -1,6 +1,9 @@
-from django.http import HttpResponse, HttpResponseNotFound
+# from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from .services import services
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):  # return value and param type
@@ -20,6 +23,7 @@ def index(request):  # return value and param type
 
         if 'clean_history' in request.POST:
             data['history'] = services.clean_history()
+            logger.info('Clean history file.')
 
         elif 'select' in request.POST:
             history_item: str = request.POST.get('history')
@@ -34,6 +38,7 @@ def index(request):  # return value and param type
             result: str = services.get_expression_result(expression, x_value)
             if result != "Error in expression":
                 data['history'] = services.write_history(f'{expression}={result}; x={x_value}')
+            logger.info(f'{expression}={result}; x={x_value}')  # TODO
             data['expression_or_result'] = result
 
         elif 'select-background' in request.POST:
@@ -41,12 +46,12 @@ def index(request):  # return value and param type
             data['background'] = config['background']
 
         elif 'select-main-color' in request.POST:
-            config = services.write_main_color_to_config(request.POST.get('main-color'))
-            # data['main-color'] = config['main-color']
-            pass
+            config = services.write_main_color_to_config(request.POST.get('main_color'))
+            data['main_color'] = config['main_color']
 
         elif 'select-font-size' in request.POST:
-            pass
+            config = services.write_font_size_to_config(request.POST.get('font_size'))
+            data['font_size'] = config['font_size']
 
     return render(request, "index.html", data)
 
@@ -74,7 +79,6 @@ def graph(request):
     # else:
     #     return HttpResponse(status=400)  # change to /
 
-
-def page_not_found(request, exception):
-    # сюда добавить красивую страничку для 404
-    return HttpResponseNotFound("sslvvb Страница не найдена")
+# def page_not_found(request, exception):
+#     # сюда добавить красивую страничку для 404
+#     return HttpResponseNotFound("sslvvb Страница не найдена")

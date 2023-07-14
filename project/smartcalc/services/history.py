@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-HISTORY_PATH: str = "smartcalc/data/history.txt"
+HISTORY_PATH: str = "data/history.txt"
 
 
 def read_file() -> list:

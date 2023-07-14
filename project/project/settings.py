@@ -11,10 +11,44 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE_TEMPLATE = os.path.join(LOG_DIR, 'logs_{date}.log')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILE_TEMPLATE,
+            # 'when': 'midnight',  # Change this based on the desired rotation period
+            # 'backupCount': 30,  # Number of log files to keep
+            'formatter': 'verbose',
+            # 'encoding': 'utf-8',
+        },
+    },
+    'loggers': {
+        'smartcalc': {
+            'handlers': ['file'],
+            'level': 'INFO',  # Set the desired logging level
+            'propogate': True,
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {message}',
+            'style': '{',
+        },
+    },
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -29,7 +63,6 @@ SECRET_KEY = 'django-insecure-wd)xci2ri9+q&3-v33%-aacxcn)ug_6t3q4cs^x)#$jwu*jqr!
 
 DEBUG = True
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -73,7 +106,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -83,7 +115,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -103,7 +134,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -114,7 +144,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
