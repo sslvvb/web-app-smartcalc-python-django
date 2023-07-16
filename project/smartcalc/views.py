@@ -1,21 +1,20 @@
-# from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from .services import services
 import logging
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 
 logger = logging.getLogger(__name__)
+
+config: dict = services.read_config()
+
+data: dict = {'history': services.read_history(),
+              'background': config['background'],
+              'font_size': config['font_size'],
+              'main_color': config['main_color']}
 
 
 def index(request):  # return value and param type
     """Главная страница. Веб-сервис, выполняющий вычисление выражения"""
-
-    config: dict = services.read_config()
-
-    # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
-    data: dict = {'history': services.read_history(),
-                  'background': config['background'],
-                  'font_size': config['font_size'],
-                  'main_color': config['main_color']}
 
     if request.method == 'POST':
         expression: str = request.POST.get('expression')
@@ -54,6 +53,19 @@ def index(request):  # return value and param type
             data['font_size'] = config['font_size']
 
     return render(request, "index.html", data)
+
+
+def history(request):
+    if request.method == 'POST':
+        history_item: str = request.POST.get('history')
+        if history_item:
+            history_item = history_item.rstrip()
+            split_lines: list = history_item.split('=')
+            data['expression_or_result'] = split_lines[0]
+            data['x_value'] = split_lines[2]
+            data['history'] = services.write_history(history_item)
+
+    return HttpResponseRedirect("/")
 
 
 def graph(request):

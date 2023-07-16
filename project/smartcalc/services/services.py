@@ -57,6 +57,7 @@ def read_config() -> dict:
     return configs.read_config()
 
 
+# юнион с проверкой условия ?
 def write_background_to_config(background: str) -> dict:
     return configs.update_config('background', background)
 

@@ -50,3 +50,8 @@ function graphPostSubmit() {
     form.method = 'POST';
     form.submit();
 }
+
+// TODO: delete ?  views.py
+function historySubmit() {
+    // не отправлять запрос, а на стороне фронта просто ставить выражение в поле на страничке
+}
