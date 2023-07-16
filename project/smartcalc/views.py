@@ -79,6 +79,19 @@ def graph(request):
     # else:
     #     return HttpResponse(status=400)  # change to /
 
+
+def about(request):
+    config: dict = services.read_config()
+    print(config)
+
+    # мб перенести вниз чтобы каждый раз потом не делать заполнение ?
+    # мб избавиться когда появятся стили ???
+    data: dict = {'background': config['background'],
+                  'font_size': config['font_size'],
+                  'main_color': config['main_color']}
+
+    return render(request, "about.html", data)
+
 # def page_not_found(request, exception):
 #     # сюда добавить красивую страничку для 404
 #     return HttpResponseNotFound("sslvvb Страница не найдена")

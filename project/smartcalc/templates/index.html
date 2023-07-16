@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends 'base.html' %}
 
+{% block title %}SmartCalc{% endblock %}
 
-<html style="--background-color: {% if background == 'light' %}rgb(248, 248, 248){% else %}rgb(59, 60, 65){% endif %};
-        --accent-color: {% if main_color == 'pink' %}rgb(237, 120, 153){% else %}rgb(114, 202, 175){% endif %};
-        --font-size: {% if font_size == '16' %}16px{% else %}14px{% endif %};">
-
-<head>
-    <title>SmartCalc</title>
-    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-    <script src="{% static 'scripts/script.js' %}"></script>
-</head>
-
-<body>
-
-<div class="tabs-container">
-    <form action="" method="GET">
-        {#{% csrf_token %}#}
-        <input type="submit" value="Calculator" class="tab-form">
-    </form>
-    <form action="/about">
-        {#{% csrf_token %}#}
-        <input type="submit" value="About" class="tab-form">
-    </form>
-</div>
-
+{% block content %}
 <div class="container">
     <div class="calculator">
         <form id="calculator-form">
@@ -94,13 +71,13 @@
                 <div style="text-align: center;">
                     <select class="select-container-history" name="history" style="width: 600px;">
                         {% for iter in history %}
-                            <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
+                        <option class="select-container-history-item" value="{{ iter }}">{{ iter }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="tabs-container">
-                    <button name="select" onclick="historySelect();" style="margin: 5px 3px;">Select</button>
-                    <button name="clean_history" onclick="historyClean();" style="margin: 5px 2px;">Clean</button>
+                    <button name="select" onclick="indexPostSubmit();" style="margin: 5px 3px;">Select</button>
+                    <button name="clean_history" onclick="indexPostSubmit();" style="margin: 5px 2px;">Clean</button>
                 </div>
             </div>
 
@@ -147,8 +124,6 @@
     </div>
 </div>
 
-</body>
-
 <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
 <script>
     $('body').on('input', '.graph-input', function () {
@@ -159,5 +134,4 @@
         }
     });
 </script>
-
-</html>
+{% endblock %}

@@ -35,14 +35,6 @@ function graphExpression(event) {
     }
 }
 
-function historySelect() {  // TODO: могу удалить
-    indexPostSubmit();
-}
-
-function historyClean() {  // TODO: могу удалить
-    indexPostSubmit();
-}
-
 // TODO: для внутренних мб другой гугл стиль ?
 
 function indexPostSubmit() {

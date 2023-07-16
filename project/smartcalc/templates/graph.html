@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <title>SmartCalc Graphic</title>
-    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-    <script src="{% static 'scripts/script.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+{% extends 'base.html' %}
+
+{% block title %}SmartCalc Graphic{% endblock %}
+
+{% block additional_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+{% endblock %}
+
+{% block additional_styles %}
     <style>
         body {
             display: flex;
@@ -24,25 +24,15 @@
             color: rgba(64, 65, 1);
         }
     </style>
-</head>
-<body>
+{% endblock %}
 
-<div class="tabs-container">
-    <form action="" method="GET">
-        {#{% csrf_token %}#}
-        <input type="submit" value="Calculator" class="tab-form">
-    </form>
-    <form action="/about">
-        {#{% csrf_token %}#}
-        <input type="submit" value="About" class="tab-form">
-    </form>
-</div>
-
+{% block content %}
 <h1>{{ expression }}</h1>
 
 <div class="chart-container">
     <canvas id="myChart"></canvas>
 </div>
+
 <script>
     const xyValues = {{ xy_values|safe }};
     new Chart("myChart", {
@@ -64,6 +54,4 @@
         }
     });
 </script>
-
-</body>
-</html>
+{% endblock %}
