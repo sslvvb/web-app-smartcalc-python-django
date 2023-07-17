@@ -8,7 +8,7 @@ function clearExpression(event) {
     document.getElementById('expression').value = '';
 }
 
-function evaluateExpression(event) {
+function calculateExpression(event) {
     if (document.getElementById('expression').value == '' ||
         document.getElementById('x_num').value == '') {
         event.preventDefault();
@@ -35,8 +35,6 @@ function graphExpression(event) {
     }
 }
 
-// TODO: для внутренних мб другой гугл стиль ?
-
 function indexPostSubmit() {
     const form = document.getElementById('calculator-form');
     form.action = '/';
@@ -51,14 +49,68 @@ function graphPostSubmit() {
     form.submit();
 }
 
+
+function parseHistoryItem(historyItem) {
+    historyItem = historyItem.trim();
+    var splitLines = historyItem.split('=');
+    var data = {
+        expression_or_result: splitLines[0].trim(),
+        x_value: splitLines[1].trim(),
+        history: services.write_history(historyItem)
+    };
+    return data;
+}
+
+
 // TODO: delete ?  views.py
 function historySubmit() {
-    // const expressionValue = document.getElementById('history-select').value;
-    // console.log(expressionValue);
-    // не отправлять запрос, а на стороне фронта просто ставить выражение в поле на страничке
-    // const form = document.getElementById('calculator-form');
+    const selectElement = document.querySelector('select[name="history"]');
+    const selectedOption = selectElement.options[selectElement.selectedIndex].value;
+
+    const historyItem = selectedOption.trim();
+    const splitLines = historyItem.split('=');
+    const data = {
+        expression_or_result: splitLines[0].trim(),
+        x_value: splitLines[2].trim(),
+    };
+
+    const expressionInput = document.querySelector('.expression-input');
+    expressionInput.value = data.expression_or_result;
+
+    // x value also set
+    // refactor me pls
+}
+
+
+
+
+function cleanHistorySubmit() {
     const form = document.getElementById('calculator-form');
-    form.action = 'history/';
+    form.action = 'clean_history/';
     form.method = 'POST';
     form.submit();
 }
+
+// TODO: разные формы для этого мб ?
+function backgroundSubmit() {
+    const form = document.getElementById('calculator-form');
+    form.action = 'background/';
+    form.method = 'POST';
+    form.submit();
+}
+
+function colorSubmit() {
+    const form = document.getElementById('calculator-form');
+    form.action = 'main_color/';
+    form.method = 'POST';
+    form.submit();
+}
+
+function fontSubmit() {
+    const form = document.getElementById('calculator-form');
+    form.action = 'font_size/';
+    form.method = 'POST';
+    form.submit();
+}
+
+// TODO: для внутренних мб другой гугл стиль ?

@@ -16,7 +16,7 @@ def read_file() -> list:
         return file.readlines()
 
 
-def clean() -> list:
+def clean() -> None:
     """Очищает историю запросов в файле history.txt
 
     Returns:
@@ -25,7 +25,6 @@ def clean() -> list:
     Path(HISTORY_PATH).touch(exist_ok=True)
     with open(HISTORY_PATH, 'r+', encoding='utf-8') as file:
         file.truncate(0)
-        return file.readlines()
 
 
 def write(record_line: str) -> list:

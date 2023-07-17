@@ -23,13 +23,13 @@ def write_history(string_to_write: str) -> list:
     return history.write(string_to_write)
 
 
-def clean_history() -> list:
+def clean_history() -> None:
     """Вызывает функцию очищения истории введенных выражений модуля history
 
     Returns:
         list: Пустой список введенных выражений.
     """
-    return history.clean()
+    history.clean()
 
 
 def get_expression_result(expression: str, x_value: str) -> str:
@@ -57,14 +57,10 @@ def read_config() -> dict:
     return configs.read_config()
 
 
-# юнион с проверкой условия ?
-def write_background_to_config(background: str) -> dict:
-    return configs.update_config('background', background)
-
-
-def write_main_color_to_config(main_color: str) -> dict:
-    return configs.update_config('main_color', main_color)
-
-
-def write_font_size_to_config(font_size: str) -> dict:
-    return configs.update_config('font_size', font_size)
+def update_config(key: str, value: str) -> bool:
+    key_values: set = {"background", "main_color", "font_size"}
+    if key in key_values:
+        configs.update_config(key, value)
+        return True
+    else:
+        return False

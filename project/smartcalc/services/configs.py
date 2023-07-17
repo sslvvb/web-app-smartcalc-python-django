@@ -11,15 +11,10 @@ def read_config() -> dict:
     return config
 
 
-def write_config(config: dict) -> None:
-    _dump_config(config)
-
-
-def update_config(key: str, value: str) -> dict:
+def update_config(key: str, value: str) -> None:
     config: dict = read_config()
     config[key] = value
-    write_config(config)
-    return read_config()
+    _dump_config(config)
 
 
 def _load_config() -> dict:
@@ -34,3 +29,6 @@ def _dump_config(config: dict) -> None:
         yaml.safe_dump(config, file)
 
 # file naming ??
+
+# def write_config(config: dict) -> None:
+#     _dump_config(config)
