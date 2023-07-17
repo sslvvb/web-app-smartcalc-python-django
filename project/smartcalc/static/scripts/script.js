@@ -53,5 +53,12 @@ function graphPostSubmit() {
 
 // TODO: delete ?  views.py
 function historySubmit() {
+    // const expressionValue = document.getElementById('history-select').value;
+    // console.log(expressionValue);
     // не отправлять запрос, а на стороне фронта просто ставить выражение в поле на страничке
+    // const form = document.getElementById('calculator-form');
+    const form = document.getElementById('calculator-form');
+    form.action = 'history/';
+    form.method = 'POST';
+    form.submit();
 }

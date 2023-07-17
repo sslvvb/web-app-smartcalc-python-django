@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
-import datetime
+# TODO: delete ?
 from .log_handlers import CustomTimedRotatingFileHandler
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,18 +23,17 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'INFO',
-            # 'class': 'logging.handlers.TimedRotatingFileHandler',
             'class': 'project.log_handlers.CustomTimedRotatingFileHandler',
             'filename': 'logs/logs_{current_time}.log',
             'when': 'H',  # Change this based on the desired rotation period
-            'backupCount': 30,  # Number of log files to keep
+            'backupCount': 30,
             'formatter': 'verbose',
         },
     },
     'loggers': {
         'smartcalc': {
             'handlers': ['file'],
-            'level': 'INFO',  # Set the desired logging level
+            'level': 'INFO',
             'propogate': True,
         }
     },
