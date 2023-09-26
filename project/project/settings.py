@@ -10,10 +10,52 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from datetime import datetime
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+CPP_LIB_FILE_PATH =  BASE_DIR.joinpath("cpp_lib", "model.so")
+CONFIG_FILE_PATH = BASE_DIR.joinpath("config", "config.yml")
+HISTORY_PATH = BASE_DIR.joinpath("data", "history.txt")
+LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
+
+if not os.path.exists(LOGGING_DIR):
+    os.makedirs(LOGGING_DIR)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': BASE_DIR.joinpath('logs', f'logs_{datetime.now().strftime("%d-%m-%y-%H-%M-%S")}.log'),
+            # 'when': 'H',
+            'when': 'D',
+            # 'when': 'M',
+            'interval': 1,
+            'backupCount': 10,
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'smartcalc': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} UTC {asctime} {message}',
+            'style': '{',
+        },
+    },
+}
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +70,7 @@ SECRET_KEY = 'django-insecure-wd)xci2ri9+q&3-v33%-aacxcn)ug_6t3q4cs^x)#$jwu*jqr!
 # ALLOWED_HOSTS = [ '127.0.0.1' ]
 
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ '0.0.0.0', '127.0.0.1' 'localhost' ]
 
 
 # Application definition
@@ -120,7 +162,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # new
+STATICFILES_DIRS = [BASE_DIR / "smartcalc/static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

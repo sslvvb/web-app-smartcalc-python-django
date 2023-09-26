@@ -1,15 +1,13 @@
 """Model class, wrapper for C++ kernel."""
 
 import ctypes
+from django.conf import settings
 
 
 # мб избавлюсь от класса если он не понадобится для графика ?
 class Calculator:
     def __init__(self) -> None:
-        self.model_lib = ctypes.CDLL(
-            # '/opt/goinfre/hjerilyn/projects/python_calc_4/my_github_calc_web/project/smartcalc/services/model.so')
-            '/Users/sslvvb/Documents/S21/Projects/Python/python_calc_4/my_github_web_calc/project/smartcalc/services'
-            '/model.so')  # относительный путь + мб в билд переложить ?
+        self.model_lib = ctypes.CDLL(settings.CPP_LIB_FILE_PATH)
 
     def calculate(self, expression: str) -> str:
         self.model_lib.GetResult.argtypes = [ctypes.c_char_p]
