@@ -1,4 +1,6 @@
 project/env_sslvvb
-**/__pycache__
-**/**/__pycache__
-**/.idea/
+__pycache__
+.idea/
+model.so
+history.txt
+*.log
