@@ -1,7 +1,6 @@
-"""Модуль для работы с историей выражений."""
+"""Module for working with expression history."""
 
 from pathlib import Path
-
 from django.conf import settings
 
 
@@ -16,7 +15,7 @@ def read_file() -> list:
         return file.readlines()
 
 
-def clean() -> list:
+def clean() -> None:
     """Очищает историю запросов в файле history.txt
 
     Returns:
@@ -25,7 +24,6 @@ def clean() -> list:
     Path(settings.HISTORY_PATH).touch(exist_ok=True)
     with open(settings.HISTORY_PATH, 'r+', encoding='utf-8') as file:
         file.truncate(0)
-        return file.readlines()
 
 
 def write(record_line: str) -> list:

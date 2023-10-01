@@ -34,9 +34,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': BASE_DIR.joinpath('logs', f'logs_{datetime.now().strftime("%d-%m-%y-%H-%M-%S")}.log'),
-            # 'when': 'H',
             'when': 'D',
-            # 'when': 'M',
             'interval': 1,
             'backupCount': 10,
             'formatter': 'verbose',
@@ -70,7 +68,7 @@ SECRET_KEY = 'django-insecure-wd)xci2ri9+q&3-v33%-aacxcn)ug_6t3q4cs^x)#$jwu*jqr!
 # ALLOWED_HOSTS = [ '127.0.0.1' ]
 
 DEBUG = True
-ALLOWED_HOSTS = [ '0.0.0.0', '127.0.0.1' 'localhost' ]
+ALLOWED_HOSTS = [ '0.0.0.0', '127.0.0.1', 'localhost' ]
 
 
 # Application definition

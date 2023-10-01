@@ -1,8 +1,9 @@
-"""Фасад модели. Вывает функции всех модулей модели. Cлой бизнес-логики, который вызывает другие слои бизнес-логики"""
+"""Model facade."""
 
 from . import calculator
-from . import utils
 from . import history
+from . import configs
+from typing import Union
 
 
 def read_history() -> list:
@@ -23,38 +24,38 @@ def write_history(string_to_write: str) -> list:
     return history.write(string_to_write)
 
 
-def clean_history() -> list:
+def clean_history() -> None:
     """Вызывает функцию очищения истории введенных выражений модуля history
 
     Returns:
         list: Пустой список введенных выражений.
     """
-    return history.clean()
+    history.clean()
 
 
 def get_expression_result(expression: str, x_value: str) -> str:
-    """вызывает функцию
-    Вычисляет выражение. Возвращает строку - результат вычислений или текст ошибки.
-    параметры - выражение, значениие х"""
-
-    if utils.check_expression_valid(expression) is False:
-        return 'Expression invalid'
-    elif utils.check_x_value_valid(x_value) is False:
-        return 'X value invalid'
-
-    # сохранить в историю
-
-    # а если два х подряд ? где это обработается ?
     if "x" in expression:
         expression = expression.replace("x", x_value)
+    result = calculator.calculate(expression)
+    if result is not None:
+        return result
+    else:
+        return "Error in expression"
 
-    try:
-        calcs = calculator.Calculator()
-        return calcs.calculate(expression)
-    except Exception as e:
-        return f"EXCEPTION ERROR FROM services.py: {str(e)}"
+
+def calculate_graph_expression_result(expression: str, x_min: str,
+                                      x_max: str) -> Union[list, None]:
+    return calculator.graph_calculate(expression, x_min, x_max)
 
 
-def graph_expression_result(expression: str, x_min: str, x_max: str) -> list:
-    calcs = calculator.Calculator()
-    return calcs.graph_calculate(expression, x_min, x_max)
+def read_config() -> dict:
+    return configs.read_config()
+
+
+def update_config(key: str, value: str) -> bool:
+    key_values: set = {"background", "main_color", "font_size"}
+    if key in key_values:
+        configs.update_config(key, value)
+        return True
+    else:
+        return False

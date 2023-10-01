@@ -1,21 +1,13 @@
+all: start
 
-all: down build
+start:
+	docker build -t my-django-app .
+	docker run --name my-container -p 8000:8000 my-django-app
 
-build:
-	docker-compose build
-	docker-compose up
+stop:
+	docker stop my-container
+	docker rm my-container
+	docker rmi my-django-app
 
-down:
-	docker-compose down
-	- docker rmi my_git_web_calc_web
-
-logs:
-	docker-compose logs -f
-
-dynamic_lib:
-	g++ -std=c++17 -shared -fPIC -o model/libcalculator.dylib model/model_c_plus_plus/model.cpp model/model_c_plus_plus/wrapper.cpp
-	g++ -shared -o model.so cpp_dynamic_lib/model.cpp cpp_dynamic_lib/wrapper.cpp
-	python3 calculator.py
-
-clean:
-	rm -f project/cpp_lib/model.so
+linter:
+	pylint --rcfile lint/pylintrc project --ignore=settings.py

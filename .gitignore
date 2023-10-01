@@ -4,3 +4,4 @@ __pycache__
 model.so
 history.txt
 *.log
+venv

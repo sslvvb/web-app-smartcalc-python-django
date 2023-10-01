@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -shared -o model.so -fPIC
 
-SRC = model.cpp wrapper.cpp
+SRC = model.cpp wrapper.cpp parser.cpp
 
 all: dynamic_lib
 

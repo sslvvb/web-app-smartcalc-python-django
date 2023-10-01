@@ -1,42 +1,58 @@
-<!--<html>-->
-<!--<head>-->
-<!--  <title>SmartCalc</title>-->
-<!--  <style>-->
-<!--    html {-->
-<!--      background-color: rgb(248, 248, 248);-->
-<!--    }-->
-<!--  </style>-->
-<!--</head>-->
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html>
+{% block title %}SmartCalc Graphic{% endblock %}
+
+{% block additional_scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<body>
-<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+{% endblock %}
+
+{% block additional_styles %}
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-container {
+            width: 900px;
+            height: 500px;
+        }
+
+        h1 {
+            color: rgba(64, 65, 1);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<h1>{{ expression }}</h1>
+
+<div class="chart-container">
+    <canvas id="myChart"></canvas>
+</div>
 
 <script>
-    const data = JSON.parse('{{ data }}');
-
+    const xyValues = {{ xy_values|safe }};
     new Chart("myChart", {
-        type: "line",
+        type: "scatter",
         data: {
-            labels: data[0],
             datasets: [{
-                fill: false,
-                lineTension: 0,
-                backgroundColor: "rgba(0,0,255,1.0)",
-                borderColor: "rgba(0,0,255,0.1)",
-                data: data[1]
+                pointRadius: 2,
+                backgroundColor: "rgba(141,108,159,1)",
+                borderColor: "rgba(192,174,202,1)",
+                data: xyValues
             }]
         },
         options: {
             legend: {display: false},
             scales: {
-                yAxes: [{ticks: {min: -2, max: 2}}],
+                xAxes: [{ticks: {min: {{x_min}}, max: {{x_max}}}}],
+                yAxes: [{ticks: {min: {{y_min}}, max: {{y_max}}}}],
             }
         }
     });
 </script>
 
-</body>
-</html>
+{% endblock %}

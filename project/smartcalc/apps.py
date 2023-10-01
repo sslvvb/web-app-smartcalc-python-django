@@ -1,3 +1,5 @@
+"""Configuration class for the SmartCalc Django app."""
+
 from django.apps import AppConfig
 
 

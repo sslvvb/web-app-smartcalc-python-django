@@ -15,17 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-# здесь определяем маршруты для функций из view.py, которые обрабатывают запросы
-# определение функций
-
 from django.urls import path, include
-# from smartcalc import views
 from django.contrib import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('smartcalc.urls')),
-    # admin include
 ]
-
-# handler404 = views.page_not_found  # а какой стиль в питоне ??
